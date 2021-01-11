@@ -12,7 +12,6 @@ client_scripts {
     '@es_extended/locale.lua',
     'client/admin_cl.lua',
     'client/entityiter.lua',
-    'client/discord_cl.lua',
     'locales/es.lua',
     'config.lua'
 }
