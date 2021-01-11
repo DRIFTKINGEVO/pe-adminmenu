@@ -4,7 +4,10 @@ This is my first full script that I have created. While the code may not be the 
 
 ## Description
 
-An admin menu created with esx_menu_default that allows gives you admin commands, server commands, and player commands.
+An admin menu created with esx_menu_default that allows gives you admin commands, server commands, and player commands. It also has basic server stuff for RP purposes like deleting weapons from peds, cars, etc.
+
+Commands
+/admin To see your rank
 
 ## Getting Started
 
