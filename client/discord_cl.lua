@@ -25,7 +25,7 @@ AddEventHandler('esx:setJob', function(job)
 	ESX.PlayerData.job = job
 end)
 
-local discordid = 777055108013752320
+local discordid = 777055108013752320 --Change this
 local time		= 250
 
 Citizen.CreateThread(function()
@@ -83,9 +83,9 @@ Citizen.CreateThread(function()
 			end
 		end
 
-		SetRichPresence('ID:' .. GetPlayerServerId(NetworkGetEntityOwner(GetPlayerPed(-1))) .. ' | ' .. GetPlayerName(PlayerId()) .. ' | ' .. #GetActivePlayers() .. '/' .. tostring(32))
+		SetRichPresence('ID:' .. GetPlayerServerId(NetworkGetEntityOwner(GetPlayerPed(-1))) .. ' | ' .. GetPlayerName(PlayerId()) .. ' | ' .. #GetActivePlayers() .. '/' .. tostring(32)) --Change the 32 to your players
 		SetDiscordAppId(discordid)
-		SetDiscordRichPresenceAsset('bombaylogo')
+		SetDiscordRichPresenceAsset('bombaylogo') --Change this
 
 		Citizen.Wait(8*1000)
 	end
