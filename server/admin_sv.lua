@@ -1,7 +1,7 @@
 
 PE = {}
 
-local PEAdmins = {
+local PEAdmins = { -- Your identifier
     'steam:110000118fe7433',
 }
 
