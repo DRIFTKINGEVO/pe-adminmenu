@@ -27,8 +27,8 @@ An admin menu created with esx_menu_default that allows gives you admin commands
 ## Issues
 
 If you find any issues with this please make sure to report them.
-* [Issues](https://github.com/XiosBombay/pe-adminmenu/issues)
-* [Pull Request](https://github.com/XiosBombay/pe-adminmenu/pulls)
+* [Issues](https://github.com/Project-Entity/pe-adminmenu/issues)
+* [Pull Request](https://github.com/Project-Entity/pe-adminmenu/pulls)
 
 ## What version are we in?
 
