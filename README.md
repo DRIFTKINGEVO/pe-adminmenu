@@ -34,7 +34,9 @@ If you find any issues with this please make sure to report them.
 
 * 1.0
     * Initial Release
-
+* 1.1
+    * Modified discord presence
+    
 ## Acknowledgments
 
 Thank you for the basic esx_menu
