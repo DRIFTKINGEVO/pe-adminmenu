@@ -20,8 +20,8 @@ PE.isAdmin = function()
     return false
 end
 
-RegisterServerEvent('PE-admin:anunciar')
-AddEventHandler('PE-admin:anunciar', function()
+RegisterServerEvent('PE-admin:announce')
+AddEventHandler('PE-admin:announce', function()
     local xPlayers    = ESX.GetPlayers()
     for i=1, #xPlayers, 1 do
         local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
@@ -119,7 +119,7 @@ RegisterCommand("admin", function(source, args, rawCommand)
 	end
 end, false)
 
-ESX.RegisterServerCallback('PE-admin:jugadoresonline', function(source, cb)
+ESX.RegisterServerCallback('PE-admin:playersonline', function(source, cb)
 	local xPlayers = ESX.GetPlayers()
 	local players  = {}
 
