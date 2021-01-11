@@ -1,10 +1,10 @@
 ESX = nil
 
-ADM_noclip = false
-ADM_godmode = false
-ADM_vanish = false
-ADM_noclipSpeed = 2.01
-ADM = {}
+PE_noclip = false
+PE_godmode = false
+PE_vanish = false
+PE_noclipSpeed = 2.01
+PE = {}
 Citizen.CreateThread(function()
     while ESX == nil do
 	TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
@@ -17,22 +17,22 @@ end)
 local isAdmin
 
 Citizen.CreateThread(function()
-	ADM.CheckAdmin()
+	PE.CheckAdmin()
     while true do 
         Wait(150)
     end
 end)
 
-ADM.CheckAdmin = function()
+PE.CheckAdmin = function()
     isAdmin = nil
-    TriggerServerEvent('ADM-admin:isAdministrator')
+    TriggerServerEvent('PE-admin:isAdministrator')
     while (isAdmin == nil) do
         Citizen.Wait(1)
     end
 end
 
-RegisterNetEvent('ADM-admin:checkAdmin')
-AddEventHandler('ADM-admin:checkAdmin', function(state)
+RegisterNetEvent('PE-admin:checkAdmin')
+AddEventHandler('PE-admin:checkAdmin', function(state)
     isAdmin = state 
 end)
 
@@ -52,11 +52,11 @@ Citizen.CreateThread(function()
 				message = '🛡️ | No tienes permiso para ver esto.'
 			})
         end 
-        if ADM_noclip then
+        if PE_noclip then
             local ped = GetPlayerPed(-1)
             local x,y,z = getPosition()
             local dx,dy,dz = getCamDirection()
-            local speed = ADM_noclipSpeed
+            local speed = PE_noclipSpeed
         
   
             SetEntityVelocity(ped, 0.05,  0.05,  0.05)
@@ -108,27 +108,27 @@ function AbrirMenuAdministrativo()
 			}, function(data2, menu2)
 				local accion = data2.current.value
 				if accion == 'del_veh' then
-					TriggerEvent('ADM-admin:delallveh')
+					TriggerEvent('PE-admin:delallveh')
 					exports['t-notify']:Alert({
 						style  =  'success',
 						message  =  '✔️ | Has borrado todos los coches.'
 					})
 				elseif accion == 'del_veh_time' then
-					TriggerServerEvent('ADM-admin:delallcars')
+					TriggerServerEvent('PE-admin:delallcars')
 				elseif accion == 'del_obj' then
-					TriggerEvent('ADM-admin:delallobj')
+					TriggerEvent('PE-admin:delallobj')
 					exports['t-notify']:Alert({
 						style  =  'success',
 						message  =  '✔️ | Has borrado todos los objetos.'
 					})
 				elseif accion == 'del_chat' then
-					TriggerServerEvent('ADM-admin:clearchat')
+					TriggerServerEvent('PE-admin:clearchat')
 				elseif accion == 'ten_min' then
-					TriggerServerEvent('ADM-admin:anunciar')
+					TriggerServerEvent('PE-admin:anunciar')
 				elseif accion == 'kick_all' then
-					TriggerServerEvent('ADM-admin:kickall')
+					TriggerServerEvent('PE-admin:kickall')
 				elseif accion == 'revive_all' then
-					TriggerServerEvent('ADM-admin:reviveall')
+					TriggerServerEvent('PE-admin:reviveall')
 				elseif accion == 'custom_announce' then
 					TriggerServerEvent('esx_policejob:putInVehicle', GetPlayerServerId(closestPlayer))
 				end
@@ -155,9 +155,9 @@ function AbrirMenuAdministrativo()
 			}, function(data2, menu2)
 				local accion = data2.current.value
 				if accion == 'noclip' then
-                    TriggerEvent('ADM-admin:nocliped')
+                    TriggerEvent('PE-admin:nocliped')
 				elseif accion == 'godmode' then
-                    TriggerEvent('ADM-admin:godmode')
+                    TriggerEvent('PE-admin:godmode')
 				elseif accion == 'tp' then
 					TPtoMarker()
 -----------------------------------------------------------FUCK ME ------------------------------------
@@ -264,17 +264,17 @@ function AbrirMenuAdministrativo()
 				elseif accion == 'dv' then
                     TriggerEvent('esx:deleteVehicle')
 				elseif accion == 'heal' then
-                    TriggerEvent('ADM-admin:healPlayer')
+                    TriggerEvent('PE-admin:healPlayer')
 				elseif accion == 'fix' then
-                    TriggerEvent( 'ADM-admin:repairVehicle')
+                    TriggerEvent( 'PE-admin:repairVehicle')
 				elseif accion == 'inv' then
-                    TriggerEvent('ADM-admin:invisible')
+                    TriggerEvent('PE-admin:invisible')
 				end
 			end, function(data2, menu2)
 				menu2.close()
 			end)
 		elseif data.current.value == 'jugador_admin' then
-			TriggerEvent("ADM-admin:openplayermenu")
+			TriggerEvent("PE-admin:openplayermenu")
 			-----------------------------------------------------------------------------------------------
 		end
 	end, function(data, menu)
@@ -283,8 +283,8 @@ function AbrirMenuAdministrativo()
 end
 
 -----------------------------------------------------------------
-RegisterNetEvent("ADM-admin:openplayermenu")
-AddEventHandler("ADM-admin:openplayermenu", function()
+RegisterNetEvent("PE-admin:openplayermenu")
+AddEventHandler("PE-admin:openplayermenu", function()
 	OpenPlayerMenu()
 end)
 
@@ -298,7 +298,7 @@ function OpenPlayerMenu()
 			{label = _U('player_list'), value = 'player_list'}
 	}}, function(data, menu)
 		if data.current.value == 'player_list' then
-			ESX.TriggerServerCallback('ADM-admin:jugadoresonline', function(players)
+			ESX.TriggerServerCallback('PE-admin:jugadoresonline', function(players)
 				local elements = {}
 				for i=1, #players, 1 do
 						table.insert(elements, {
@@ -327,7 +327,7 @@ function OpenPlayerMenu()
 						local Playerid = data2.current.value
 		
 						if data3.current.value == 'freeze' then
-							TriggerEvent('ADMa-admin:freezePlayer')
+							TriggerEvent('PEa-admin:freezePlayer')
 							
 						end
 					end, function(data3, menu3)
@@ -467,12 +467,12 @@ end
 
 -------Eventos
 
-RegisterNetEvent('ADM-admin:nocliped')
-AddEventHandler('ADM-admin:nocliped',function()
-	ADM_noclip = not ADM_noclip
+RegisterNetEvent('PE-admin:nocliped')
+AddEventHandler('PE-admin:nocliped',function()
+	PE_noclip = not PE_noclip
     local ped = GetPlayerPed(-1)
 
-    if ADM_noclip then
+    if PE_noclip then
     	SetEntityInvincible(ped, true)
     	SetEntityVisible(ped, false, false)
     else
@@ -480,7 +480,7 @@ AddEventHandler('ADM-admin:nocliped',function()
     	SetEntityVisible(ped, true, false)
     end
 
-    if ADM_noclip == true then 
+    if PE_noclip == true then 
 		exports['t-notify']:Alert({
 			style  =  'success',
 			message  =  '✔️ | Has activado el noclip.'
@@ -493,12 +493,12 @@ AddEventHandler('ADM-admin:nocliped',function()
     end
 end)
 
-RegisterNetEvent('ADM-admin:invisible')
-AddEventHandler('ADM-admin:invisible', function()
-	ADM_vanish = not ADM_vanish
+RegisterNetEvent('PE-admin:invisible')
+AddEventHandler('PE-admin:invisible', function()
+	PE_vanish = not PE_vanish
     local ped = GetPlayerPed(-1)
-    SetEntityVisible(ped, not ADM_vanish, false)
-    if ADM_vanish == true then 
+    SetEntityVisible(ped, not PE_vanish, false)
+    if PE_vanish == true then 
 		exports['t-notify']:Alert({
 			style  =  'success',
 			message  =  '✔️ | Has activado el modo invisible.'
@@ -511,8 +511,8 @@ AddEventHandler('ADM-admin:invisible', function()
     end
 end)
 
-RegisterNetEvent('ADM-admin:godmode')
-AddEventHandler('ADM-admin:godmode', function()
+RegisterNetEvent('PE-admin:godmode')
+AddEventHandler('PE-admin:godmode', function()
 	godmode = not godmode
 	local playerPed = PlayerPedId()
 	SetEntityInvincible(playerPed, not godmode, false)
@@ -529,8 +529,8 @@ AddEventHandler('ADM-admin:godmode', function()
 	end
 end)
 
-RegisterNetEvent("ADM-admin:clearchat")
-AddEventHandler("ADM-admin:clearchat", function()
+RegisterNetEvent("PE-admin:clearchat")
+AddEventHandler("PE-admin:clearchat", function()
     TriggerEvent('chat:clear', -1)
 	exports['t-notify']:Alert({
 		style  =  'info',
@@ -538,8 +538,8 @@ AddEventHandler("ADM-admin:clearchat", function()
 	})
 end)
 
-RegisterNetEvent('ADM-admin:repairVehicle')
-AddEventHandler('ADM-admin:repairVehicle', function()
+RegisterNetEvent('PE-admin:repairVehicle')
+AddEventHandler('PE-admin:repairVehicle', function()
     local ply = PlayerPedId()
     local plyVeh = GetVehiclePedIsIn(ply)
     if IsPedInAnyVehicle(ply) then 
@@ -560,18 +560,18 @@ AddEventHandler('ADM-admin:repairVehicle', function()
 end)
 
 
-RegisterNetEvent('ADM-admin:healPlayer')
-AddEventHandler('ADM-admin:healPlayer', function()
+RegisterNetEvent('PE-admin:healPlayer')
+AddEventHandler('PE-admin:healPlayer', function()
     if isAdmin then 
-        local ADM_ped = PlayerPedId()
-        SetEntityHealth(ADM_ped, 200)
+        local PE_ped = PlayerPedId()
+        SetEntityHealth(PE_ped, 200)
 		exports['t-notify']:Alert({
 			style  =  'success',
 			message  =  '✔️ | Te has curado.'
 		})
-        ClearPedBloodDamage(ADM_ped)
-        ResetPedVisibleDamage(ADM_ped)
-        ClearPedLastWeaponDamage(ADM_ped)
+        ClearPedBloodDamage(PE_ped)
+        ResetPedVisibleDamage(PE_ped)
+        ClearPedLastWeaponDamage(PE_ped)
     else
 		exports['t-notify']:Alert({
 			style  =  'error',
@@ -580,8 +580,8 @@ AddEventHandler('ADM-admin:healPlayer', function()
     end
 end)
 
-RegisterNetEvent("ADM-admin:delallveh")
-AddEventHandler("ADM-admin:delallveh", function ()
+RegisterNetEvent("PE-admin:delallveh")
+AddEventHandler("PE-admin:delallveh", function ()
     for vehicle in EnumerateVehicles() do
         if (not IsPedAPlayer(GetPedInVehicleSeat(vehicle, -1))) then 
             SetVehicleHasBeenOwnedByPlayer(vehicle, false) 
@@ -594,8 +594,8 @@ AddEventHandler("ADM-admin:delallveh", function ()
     end
 end)
 
-RegisterNetEvent("ADM-admin:delallobj")
-AddEventHandler("ADM-admin:delallobj", function ()
+RegisterNetEvent("PE-admin:delallobj")
+AddEventHandler("PE-admin:delallobj", function ()
 	for object in EnumerateObjects() do
         SetEntityAsMissionEntity(object, false, false) 
 		DeleteObject(object)
@@ -607,8 +607,8 @@ end)
 
 
 
-RegisterNetEvent("ADMa-admin:freezePlayer")
-AddEventHandler("ADMa-admin:freezePlayer", function(input)
+RegisterNetEvent("PEa-admin:freezePlayer")
+AddEventHandler("PEa-admin:freezePlayer", function(input)
 	freeze = not freeze
 	local player = PlayerId()
 	local ped = PlayerPedId()

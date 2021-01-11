@@ -1,3 +1,4 @@
-Config                            = {}
+Config          = {}
 
-Config.Locale                     = 'es'
+Config.Locale   = 'es'
+Config.Key      = 121

@@ -1,7 +1,7 @@
 
-ADM = {}
+PE = {}
 
-local ADMAdmins = {
+local PEAdmins = {
     'steam:110000118fe7433',
 }
 
@@ -9,19 +9,19 @@ ESX = nil
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
-ADM.isAdmin = function()
-    local ADM_identifier = GetPlayerIdentifiers(src)
-    ADM_identifier = ADM_identifier[1]
-    for i, v in pairs(ADMAdmins) do 
-        if v == ADM_identifier then 
+PE.isAdmin = function()
+    local PE_identifier = GetPlayerIdentifiers(src)
+    PE_identifier = PE_identifier[1]
+    for i, v in pairs(PEAdmins) do 
+        if v == PE_identifier then 
             return true 
         end
     end 
     return false
 end
 
-RegisterServerEvent('ADM-admin:anunciar')
-AddEventHandler('ADM-admin:anunciar', function()
+RegisterServerEvent('PE-admin:anunciar')
+AddEventHandler('PE-admin:anunciar', function()
     local xPlayers    = ESX.GetPlayers()
     for i=1, #xPlayers, 1 do
         local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
@@ -36,17 +36,17 @@ AddEventHandler('ADM-admin:anunciar', function()
 end)
 
 --Not tested
-RegisterServerEvent('ADM-admin:clearchat')
-AddEventHandler('ADM-admin:clearchat', function()
+RegisterServerEvent('PE-admin:clearchat')
+AddEventHandler('PE-admin:clearchat', function()
     local xPlayers    = ESX.GetPlayers()
     for i=1, #xPlayers, 1 do
         local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
-        TriggerClientEvent('ADM-admin:clearchat', xPlayers[i], -1)
+        TriggerClientEvent('PE-admin:clearchat', xPlayers[i], -1)
     end
 end)
 
-RegisterServerEvent('ADM-admin:delallcars')
-AddEventHandler('ADM-admin:delallcars', function()
+RegisterServerEvent('PE-admin:delallcars')
+AddEventHandler('PE-admin:delallcars', function()
     local xPlayers    = ESX.GetPlayers()
     for i=1, #xPlayers, 1 do
         local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
@@ -73,12 +73,12 @@ AddEventHandler('ADM-admin:delallcars', function()
             duration = 5000,
             message  =  '✔️ Se han borrado todos los vehiculos con exito!'
         })
-        TriggerClientEvent('ADM-admin:delallveh', -1)
+        TriggerClientEvent('PE-admin:delallveh', -1)
     end
 end)
 
-RegisterServerEvent("ADM-admin:kickall")
-AddEventHandler("ADM-admin:kickall", function()
+RegisterServerEvent("PE-admin:kickall")
+AddEventHandler("PE-admin:kickall", function()
 	local xPlayers	= ESX.GetPlayers()
 	for i=1, #xPlayers, 1 do
 		local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
@@ -86,8 +86,8 @@ AddEventHandler("ADM-admin:kickall", function()
 	end
 end)
 
-RegisterServerEvent("ADM-admin:reviveall")
-AddEventHandler("ADM-admin:reviveall", function()
+RegisterServerEvent("PE-admin:reviveall")
+AddEventHandler("PE-admin:reviveall", function()
 	local xPlayers	= ESX.GetPlayers()
 	for i=1, #xPlayers, 1 do
 		local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
@@ -95,13 +95,13 @@ AddEventHandler("ADM-admin:reviveall", function()
 	end
 end)
 
-RegisterServerEvent('ADM-admin:isAdministrator')
-AddEventHandler('ADM-admin:isAdministrator', function()
-    local ADMidentifier = GetPlayerIdentifiers(source)
-    ADMidentifier = ADMidentifier[1]
-    for a, v in pairs(ADMAdmins) do 
-        if v == ADMidentifier then 
-            TriggerClientEvent('ADM-admin:checkAdmin', source, true)
+RegisterServerEvent('PE-admin:isAdministrator')
+AddEventHandler('PE-admin:isAdministrator', function()
+    local PEidentifier = GetPlayerIdentifiers(source)
+    PEidentifier = PEidentifier[1]
+    for a, v in pairs(PEAdmins) do 
+        if v == PEidentifier then 
+            TriggerClientEvent('PE-admin:checkAdmin', source, true)
             return true 
         end
     end 
@@ -119,7 +119,7 @@ RegisterCommand("admin", function(source, args, rawCommand)
 	end
 end, false)
 
-ESX.RegisterServerCallback('ADM-admin:jugadoresonline', function(source, cb)
+ESX.RegisterServerCallback('PE-admin:jugadoresonline', function(source, cb)
 	local xPlayers = ESX.GetPlayers()
 	local players  = {}
 
