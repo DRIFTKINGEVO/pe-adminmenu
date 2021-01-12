@@ -54,6 +54,8 @@ If you find any issues with this please make sure to report them.
     * Optimized a little bit
     * Changed tp to the closest vehicle
     * Changed tpm for optimization.
+    * Changed webhook to config.lua
+    * Changed opening key to config.lua
 * 1.5
 
     
