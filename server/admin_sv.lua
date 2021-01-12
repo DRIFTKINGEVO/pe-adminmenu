@@ -35,6 +35,23 @@ AddEventHandler('PE-admin:announce', function()
     end
 end)
 
+ESX.RegisterServerCallback('PE-admin:playersonline', function(source, cb)
+	local xPlayers = ESX.GetPlayers()
+	local players  = {}
+
+	for i=1, #xPlayers, 1 do
+		local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
+		table.insert(players, {
+			source     = xPlayer.source,
+			identifier = xPlayer.identifier,
+            name       = xPlayer.name,
+			job        = xPlayer.job
+		})
+	end
+
+	cb(players)
+end)
+
 --Not tested
 RegisterServerEvent('PE-admin:clearchat')
 AddEventHandler('PE-admin:clearchat', function()
@@ -92,6 +109,7 @@ AddEventHandler("PE-admin:reviveall", function()
 	for i=1, #xPlayers, 1 do
 		local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
             TriggerClientEvent('esx_ambulancejob:revive', xPlayers[i])
+            sendToDiscord("https://discord.com/api/webhooks/798525432818434048/soEpjUXu260Jg37zOL_0DuDmCD-dLFQtWWL-3IkBNetdDylYhE_g45L01S61InHyIXto", "Revive", "Se ha revivido a todos.", 56108)
 	end
 end)
 
@@ -119,19 +137,21 @@ RegisterCommand("admin", function(source, args, rawCommand)
 	end
 end, false)
 
-ESX.RegisterServerCallback('PE-admin:playersonline', function(source, cb)
-	local xPlayers = ESX.GetPlayers()
-	local players  = {}
-
-	for i=1, #xPlayers, 1 do
-		local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
-		table.insert(players, {
-			source     = xPlayer.source,
-			identifier = xPlayer.identifier,
-            name       = xPlayer.name,
-			job        = xPlayer.job
-		})
-	end
-
-	cb(players)
-end)
+function sendToDiscord (canal, name, message, color)
+    local DiscordWebHook = canal
+    local embeds = {
+        {
+            ["title"]= "Your server",
+            ["type"]= "rich",
+            ["color"] = color,
+            ["description"]= message,
+            ["footer"]= {
+            ["text"]= "Footer",
+            ["icon_url"]= "https://forum.fivem.net/uploads/default/original/3X/f/3/f39849c511fa123c3346b7afef26971f1f8a740d.png",
+           },
+        }
+    }
+    
+      if message == nil or message == '' then return FALSE end
+      PerformHttpRequest(DiscordWebHook, function(err, text, headers) end, 'POST', json.encode({ username = name,embeds = embeds}), { ['Content-Type'] = 'application/json' })
+    end

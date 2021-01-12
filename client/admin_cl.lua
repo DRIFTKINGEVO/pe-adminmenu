@@ -53,7 +53,7 @@ Citizen.CreateThread(function()
 			})
         end 
         if PE_noclip then
-            local ped = GetPlayerPed(-1)
+            local ped = PlayerPedId()
             local x,y,z = getPosition()
             local dx,dy,dz = getCamDirection()
             local speed = PE_noclipSpeed
@@ -83,7 +83,7 @@ function AbrirMenuAdministrativo()
 	
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'admin_actions', {
 		title    = 'Menu Administrativo',
-		align    = 'top-left',
+		align    = 'right',
 		elements = {
 			{label = _U('server_admin'), value = 'server_admin'},
             {label = _U('admin_admin'), value = 'admin_admin'},
@@ -103,7 +103,7 @@ function AbrirMenuAdministrativo()
             
 			ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'server_admin', {
 				title    = _U('server_admin'),
-				align    = 'top-left',
+				align    = 'right',
 				elements = elements
 			}, function(data2, menu2)
 				local accion = data2.current.value
@@ -150,7 +150,7 @@ function AbrirMenuAdministrativo()
 
 			ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'admin_admin', {
 				title    = _U('admin_admin'),
-				align    = 'top-left',
+				align    = 'right',
 				elements = elements
 			}, function(data2, menu2)
 				local accion = data2.current.value
@@ -160,107 +160,10 @@ function AbrirMenuAdministrativo()
                     TriggerEvent('PE-admin:godmode')
 				elseif accion == 'tp' then
 					TPtoMarker()
------------------------------------------------------------FUCK ME ------------------------------------
 				elseif accion == 'tpclose' then
-					local playerPed = GetPlayerPed(-1)
-					local playerPedPos = GetEntityCoords(playerPed, true)
-					local NearestVehicle = GetClosestVehicle(GetEntityCoords(playerPed, true), 1000.0, 0, 4)
-					local NearestVehiclePos = GetEntityCoords(NearestVehicle, true)
-					local NearestPlane = GetClosestVehicle(GetEntityCoords(playerPed, true), 1000.0, 0, 16384)
-					local NearestPlanePos = GetEntityCoords(NearestPlane, true)
-					exports['t-notify']:Alert({
-						style  =  'info',
-						message  =  'Espera, no te muevas...',
-						duration = 1200
-					})
-					Citizen.Wait(1500)
-					if (NearestVehicle == 0) and (NearestPlane == 0) then
-						exports['t-notify']:Alert({
-							style  =  'error',
-							message  =  '❌ | Ninguno vehiculo encontrado.'
-						})
-					elseif (NearestVehicle == 0) and (NearestPlane ~= 0) then
-						if IsVehicleSeatFree(NearestPlane, -1) then
-							SetPedIntoVehicle(playerPed, NearestPlane, -1)
-							SetVehicleAlarm(NearestPlane, false)
-							SetVehicleDoorsLocked(NearestPlane, 1)
-							SetVehicleNeedsToBeHotwired(NearestPlane, false)
-						else
-							local driverPed = GetPedInVehicleSeat(NearestPlane, -1)
-							ClearPedTasksImmediately(driverPed)
-							SetEntityAsMissionEntity(driverPed, 1, 1)
-							DeleteEntity(driverPed)
-							SetPedIntoVehicle(playerPed, NearestPlane, -1)
-							SetVehicleAlarm(NearestPlane, false)
-							SetVehicleDoorsLocked(NearestPlane, 1)
-							SetVehicleNeedsToBeHotwired(NearestPlane, false)
-						end
-							exports['t-notify']:Alert({
-								style  =  'success',
-								message  =  '✔️ | Te has teletransportado correctamente.'
-							})
-					elseif (NearestVehicle ~= 0) and (NearestPlane == 0) then
-						if IsVehicleSeatFree(NearestVehicle, -1) then
-							SetPedIntoVehicle(playerPed, NearestVehicle, -1)
-							SetVehicleAlarm(NearestVehicle, false)
-							SetVehicleDoorsLocked(NearestVehicle, 1)
-							SetVehicleNeedsToBeHotwired(NearestVehicle, false)
-						else
-							local driverPed = GetPedInVehicleSeat(NearestVehicle, -1)
-							ClearPedTasksImmediately(driverPed)
-							SetEntityAsMissionEntity(driverPed, 1, 1)
-							DeleteEntity(driverPed)
-							SetPedIntoVehicle(playerPed, NearestVehicle, -1)
-							SetVehicleAlarm(NearestVehicle, false)
-							SetVehicleDoorsLocked(NearestVehicle, 1)
-							SetVehicleNeedsToBeHotwired(NearestVehicle, false)
-						end
-							exports['t-notify']:Alert({
-								style  =  'success',
-								message  =  '✔️ | Te has teletransportado correctamente.'
-							})
-					elseif (NearestVehicle ~= 0) and (NearestPlane ~= 0) then
-						if Vdist(NearestVehiclePos.x, NearestVehiclePos.y, NearestVehiclePos.z, playerPedPos.x, playerPedPos.y, playerPedPos.z) < Vdist(NearestPlanePos.x, NearestPlanePos.y, NearestPlanePos.z, playerPedPos.x, playerPedPos.y, playerPedPos.z) then
-							if IsVehicleSeatFree(NearestVehicle, -1) then
-								SetPedIntoVehicle(playerPed, NearestVehicle, -1)
-								SetVehicleAlarm(NearestVehicle, false)
-								SetVehicleDoorsLocked(NearestVehicle, 1)
-								SetVehicleNeedsToBeHotwired(NearestVehicle, false)
-							else
-								local driverPed = GetPedInVehicleSeat(NearestVehicle, -1)
-								ClearPedTasksImmediately(driverPed)
-								SetEntityAsMissionEntity(driverPed, 1, 1)
-							DeleteEntity(driverPed)
-								SetPedIntoVehicle(playerPed, NearestVehicle, -1)
-								SetVehicleAlarm(NearestVehicle, false)
-								SetVehicleDoorsLocked(NearestVehicle, 1)
-								SetVehicleNeedsToBeHotwired(NearestVehicle, false)
-							end
-						elseif Vdist(NearestVehiclePos.x, NearestVehiclePos.y, NearestVehiclePos.z, playerPedPos.x, playerPedPos.y, playerPedPos.z) > Vdist(NearestPlanePos.x, NearestPlanePos.y, NearestPlanePos.z, playerPedPos.x, playerPedPos.y, playerPedPos.z) then
-							if IsVehicleSeatFree(NearestPlane, -1) then
-								SetPedIntoVehicle(playerPed, NearestPlane, -1)
-								SetVehicleAlarm(NearestPlane, false)
-								SetVehicleDoorsLocked(NearestPlane, 1)
-								SetVehicleNeedsToBeHotwired(NearestPlane, false)
-							else
-								local driverPed = GetPedInVehicleSeat(NearestPlane, -1)
-								ClearPedTasksImmediately(driverPed)
-								SetEntityAsMissionEntity(driverPed, 1, 1)
-								DeleteEntity(driverPed)
-								SetPedIntoVehicle(playerPed, NearestPlane, -1)
-								SetVehicleAlarm(NearestPlane, false)
-								SetVehicleDoorsLocked(NearestPlane, 1)
-								SetVehicleNeedsToBeHotwired(NearestPlane, false)
-							end
-						end
-							exports['t-notify']:Alert({
-								style  =  'success',
-								message  =  '✔️ | Te has teletransportado correctamente.'
-							})
-					end
------------------------------------------------------------FUCK ME ------------------------------------
+					GoVeh()
 				elseif accion == 'spawnCar' then
-                    openGetterMenu('spawnCar')
+                    openVehMenu('spawnCar')
 				elseif accion == 'dv' then
                     TriggerEvent('esx:deleteVehicle')
 				elseif accion == 'heal' then
@@ -293,12 +196,12 @@ function OpenPlayerMenu()
 
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'player_list', {
 		title    = _U('player_list'),
-		align    = 'top-left',
+		align    = 'right',
 		elements = {
 			{label = _U('player_list'), value = 'player_list'}
 	}}, function(data, menu)
 		if data.current.value == 'player_list' then
-			ESX.TriggerServerCallback('PE-admin:jugadoresonline', function(players)
+			ESX.TriggerServerCallback('PE-admin:playersonline', function(players)
 				local elements = {}
 				for i=1, #players, 1 do
 						table.insert(elements, {
@@ -310,24 +213,27 @@ function OpenPlayerMenu()
 				end
 				ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'recruit_', {
 					title    = _U('player_list'),
-					align    = 'top-left',
+					align    = 'right',
 					elements = elements
 				}, function(data2, menu2)
 		
 					ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'recruit_confirm_', {
 						title    = _U('are_you_sure', data2.current.name),
-						align    = 'top-left',
+						align    = 'right',
 						elements = {
-							{label = "test", value = 'freeze'},
-							{label = _U('no'), value = 'no'}
+							{label = "Freeze", value = 'freeze'},
+							{label = "Kick", value = 'kick'}
 						}
 					}, function(data3, menu3)
 						menu3.close()
-						local name = data2.current.name
-						local Playerid = data2.current.value
+						local name = data3.current.name
+						local Playerid = data3.current.value
+						local identifier = data3.current.identifier
 		
-						if data3.current.value == 'freeze' then
-							TriggerEvent('PEa-admin:freezePlayer')
+						if Playerid == 'freeze' then
+							TriggerEvent('PE-admin:freezePlayer')
+						elseif identifier == 'kick' then
+							TriggerServerEvent('PE-admin:kickplayer')
 							
 						end
 					end, function(data3, menu3)
@@ -425,7 +331,7 @@ function OpenPlayerMenu()
 end
 				
 				
-function openGetterMenu(type)
+function openVehMenu(type)
 	ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'getterAdminMenu',
 	{
 		title = "Ingrese el parámetro correspondiente",
@@ -445,7 +351,7 @@ function openGetterMenu(type)
 	end)
 end
 
-function openMoneyMenu(type)
+--[[function openMoneyMenu(type)
 	ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'getterMoneyMenu',
 	{
 		title = "Ingrese el parámetro correspondiente",
@@ -464,13 +370,39 @@ function openMoneyMenu(type)
 		menu.close()
 	end)
 end
-
--------Eventos
+]]
 
 RegisterNetEvent('PE-admin:nocliped')
 AddEventHandler('PE-admin:nocliped',function()
 	PE_noclip = not PE_noclip
-    local ped = GetPlayerPed(-1)
+    local ped = PlayerPedId()
+
+    if PE_noclip then
+    	SetEntityInvincible(ped, true)
+    	SetEntityVisible(ped, false, false)
+    else
+    	SetEntityInvincible(ped, false)
+    	SetEntityVisible(ped, true, false)
+    end
+
+    if PE_noclip == true then 
+		exports['t-notify']:Alert({
+			style  =  'success',
+			message  =  '✔️ | Has activado el noclip.'
+		})
+    else
+		exports['t-notify']:Alert({
+			style  =  'error',
+			message  =  '❌ | Has desactivado el modo invisible.'
+		})	
+    end
+end)
+-------Events--
+
+RegisterNetEvent('PE-admin:nocliped')
+AddEventHandler('PE-admin:nocliped',function()
+	PE_noclip = not PE_noclip
+    local ped = PlayerPedId()
 
     if PE_noclip then
     	SetEntityInvincible(ped, true)
@@ -496,7 +428,7 @@ end)
 RegisterNetEvent('PE-admin:invisible')
 AddEventHandler('PE-admin:invisible', function()
 	PE_vanish = not PE_vanish
-    local ped = GetPlayerPed(-1)
+    local ped = PlayerPedId()
     SetEntityVisible(ped, not PE_vanish, false)
     if PE_vanish == true then 
 		exports['t-notify']:Alert({
@@ -605,12 +537,11 @@ AddEventHandler("PE-admin:delallobj", function ()
     end
 end)
 
+----ALL PLAYER OPTIONS
 
-
-RegisterNetEvent("PEa-admin:freezePlayer")
-AddEventHandler("PEa-admin:freezePlayer", function(input)
+RegisterNetEvent("PE-admin:freezePlayer")
+AddEventHandler("PE-admin:freezePlayer", function(input)
 	freeze = not freeze
-	local player = PlayerId()
 	local ped = PlayerPedId()
     if freeze == true then
         SetEntityCollision(ped, false)
@@ -623,17 +554,15 @@ AddEventHandler("PEa-admin:freezePlayer", function(input)
     end
 end) 
 
-
-
 ----------Noclip function------------
 
 getPosition = function()
-	local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
+	local x,y,z = table.unpack(GetEntityCoords(PlayerPedId(),true))
   	return x,y,z
 end
 
 getCamDirection = function()
-	local heading = GetGameplayCamRelativeHeading()+GetEntityHeading(GetPlayerPed(-1))
+	local heading = GetGameplayCamRelativeHeading()+GetEntityHeading(PlayerPedId())
 	local pitch = GetGameplayCamRelativePitch()
   
 	local x = -math.sin(heading*math.pi/180.0)
@@ -650,7 +579,7 @@ getCamDirection = function()
 	return x,y,z
 end
 
-----Qalle Mod
+----Qalle Mod Function
 
 TPtoMarker = function()
     if isAdmin then
@@ -726,10 +655,112 @@ function GetPlayers()
 	return players
 end
 
+-------TP to veh
 
-
-
-
-
-
----------------TEST FOR VIDEI
+function GoVeh()
+	local playerPed = PlayerPedId()
+	local playerPedPos = GetEntityCoords(playerPed, true)
+	local NearestVehicle = GetClosestVehicle(GetEntityCoords(playerPed, true), 1000.0, 0, 4)
+	local NearestVehiclePos = GetEntityCoords(NearestVehicle, true)
+	local NearestPlane = GetClosestVehicle(GetEntityCoords(playerPed, true), 1000.0, 0, 1000)
+	local NearestPlanePos = GetEntityCoords(NearestPlane, true)
+	exports['t-notify']:Alert({
+		style  =  'info',
+		message  =  'Espera, no te muevas...',
+		duration = 1200
+	})
+	Citizen.Wait(1600)
+	if (NearestVehicle == 0) and (NearestPlane == 0) then
+		exports['t-notify']:Alert({
+			style  =  'error',
+			message  =  '❌ | Ninguno vehiculo encontrado.'
+		})
+	elseif (NearestVehicle == 0) and (NearestPlane ~= 0) then
+		if IsVehicleSeatFree(NearestPlane, -1) then
+			SetPedIntoVehicle(playerPed, NearestPlane, -1)
+			SetVehicleAlarm(NearestPlane, false)
+			SetVehicleDoorsLocked(NearestPlane, 1)
+			SetVehicleNeedsToBeHotwired(NearestPlane, false)
+			Citizen.Wait(1)
+		else
+			local driverPed = GetPedInVehicleSeat(NearestPlane, -1)
+			ClearPedTasksImmediately(driverPed)
+			SetEntityAsMissionEntity(driverPed, 1, 1)
+			DeleteEntity(driverPed)
+			SetPedIntoVehicle(playerPed, NearestPlane, -1)
+			SetVehicleAlarm(NearestPlane, false)
+			SetVehicleDoorsLocked(NearestPlane, 1)
+			SetVehicleNeedsToBeHotwired(NearestPlane, false)
+			Citizen.Wait(1)
+		end
+			exports['t-notify']:Alert({
+				style  =  'success',
+				message  =  '✔️ | Te has teletransportado correctamente.'
+			})
+	elseif (NearestVehicle ~= 0) and (NearestPlane == 0) then
+		if IsVehicleSeatFree(NearestVehicle, -1) then
+			SetPedIntoVehicle(playerPed, NearestVehicle, -1)
+			SetVehicleAlarm(NearestVehicle, false)
+			SetVehicleDoorsLocked(NearestVehicle, 1)
+			SetVehicleNeedsToBeHotwired(NearestVehicle, false)
+			Citizen.Wait(1)
+		else
+			local driverPed = GetPedInVehicleSeat(NearestVehicle, -1)
+			ClearPedTasksImmediately(driverPed)
+			SetEntityAsMissionEntity(driverPed, 1, 1)
+			DeleteEntity(driverPed)
+			SetPedIntoVehicle(playerPed, NearestVehicle, -1)
+			SetVehicleAlarm(NearestVehicle, false)
+			SetVehicleDoorsLocked(NearestVehicle, 1)
+			SetVehicleNeedsToBeHotwired(NearestVehicle, false)
+			Citizen.Wait(1)
+		end
+			exports['t-notify']:Alert({
+				style  =  'success',
+				message  =  '✔️ | Te has teletransportado correctamente.'
+			})
+	elseif (NearestVehicle ~= 0) and (NearestPlane ~= 0) then
+		if Vdist(NearestVehiclePos.x, NearestVehiclePos.y, NearestVehiclePos.z, playerPedPos.x, playerPedPos.y, playerPedPos.z) < Vdist(NearestPlanePos.x, NearestPlanePos.y, NearestPlanePos.z, playerPedPos.x, playerPedPos.y, playerPedPos.z) then
+			if IsVehicleSeatFree(NearestVehicle, -1) then
+				SetPedIntoVehicle(playerPed, NearestVehicle, -1)
+				SetVehicleAlarm(NearestVehicle, false)
+				SetVehicleDoorsLocked(NearestVehicle, 1)
+				SetVehicleNeedsToBeHotwired(NearestVehicle, false)
+				Citizen.Wait(1)
+			else
+				local driverPed = GetPedInVehicleSeat(NearestVehicle, -1)
+				ClearPedTasksImmediately(driverPed)
+				SetEntityAsMissionEntity(driverPed, 1, 1)
+				DeleteEntity(driverPed)
+				SetPedIntoVehicle(playerPed, NearestVehicle, -1)
+				SetVehicleAlarm(NearestVehicle, false)
+				SetVehicleDoorsLocked(NearestVehicle, 1)
+				SetVehicleNeedsToBeHotwired(NearestVehicle, false)
+				Citizen.Wait(1)
+			end
+		elseif Vdist(NearestVehiclePos.x, NearestVehiclePos.y, NearestVehiclePos.z, playerPedPos.x, playerPedPos.y, playerPedPos.z) > Vdist(NearestPlanePos.x, NearestPlanePos.y, NearestPlanePos.z, playerPedPos.x, playerPedPos.y, playerPedPos.z) then
+			if IsVehicleSeatFree(NearestPlane, -1) then
+				SetPedIntoVehicle(playerPed, NearestPlane, -1)
+				SetVehicleAlarm(NearestPlane, false)
+				SetVehicleDoorsLocked(NearestPlane, 1)
+				SetVehicleNeedsToBeHotwired(NearestPlane, false)
+				Citizen.Wait(1)
+			else
+				local driverPed = GetPedInVehicleSeat(NearestPlane, -1)
+				ClearPedTasksImmediately(driverPed)
+				SetEntityAsMissionEntity(driverPed, 1, 1)
+				DeleteEntity(driverPed)
+				SetPedIntoVehicle(playerPed, NearestPlane, -1)
+				SetVehicleAlarm(NearestPlane, false)
+				SetVehicleDoorsLocked(NearestPlane, 1)
+				SetVehicleNeedsToBeHotwired(NearestPlane, false)
+				Citizen.Wait(1)
+			end
+		end
+			exports['t-notify']:Alert({
+				style  =  'success',
+				message  =  '✔️ | Te has teletransportado correctamente.'
+			})
+		Citizen.Wait(1)	
+	end
+end
