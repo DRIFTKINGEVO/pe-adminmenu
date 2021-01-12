@@ -651,11 +651,6 @@ getCamDirection = function()
 end
 
 ----Qalle Mod
---NO commands, just for video
-
-RegisterCommand("tpm", function(source)
-    TPtoMarker()
-end)
 
 TPtoMarker = function()
     if isAdmin then
@@ -675,7 +670,7 @@ TPtoMarker = function()
                     break
                 end
 
-                Citizen.Wait(5)
+                Citizen.Wait(10)
             end
 			exports['t-notify']:Alert({
 				style  =  'success',

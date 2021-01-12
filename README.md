@@ -1,10 +1,13 @@
-# PE-adminmenu (WIP)
+# PE-adminmenu (WIP) [DO NOT USE](https://www.safetysign.com/images/source/large-images/R5332.png)
 
 This is my first full script that I have created. While the code may not be the best, it is something I am proud of. This is a fully working admin menu for esx which uses esx_menu_default instead of Warmenu which caused an incremented ms. I first began working on this because all the other admin menus out there are not "optimized".
 
 ## Description
 
-An admin menu created with esx_menu_default that allows gives you admin commands, server commands, and player commands.
+An admin menu created with esx_menu_default that allows gives you admin commands, server commands, and player commands. It also has basic server stuff for RP purposes like deleting weapons from peds, cars, etc.
+
+#### Commands:
+/admin To see your rank
 
 ## Getting Started
 
@@ -27,14 +30,16 @@ An admin menu created with esx_menu_default that allows gives you admin commands
 ## Issues
 
 If you find any issues with this please make sure to report them.
-* [Issues](https://github.com/XiosBombay/pe-adminmenu/issues)
-* [Pull Request](https://github.com/XiosBombay/pe-adminmenu/pulls)
+* [Issues](https://github.com/Project-Entity/pe-adminmenu/issues)
+* [Pull Request](https://github.com/Project-Entity/pe-adminmenu/pulls)
 
 ## What version are we in?
 
 * 1.0
     * Initial Release
-
+* 1.1
+    * Modified discord presence
+    
 ## Acknowledgments
 
 Thank you for the basic esx_menu
