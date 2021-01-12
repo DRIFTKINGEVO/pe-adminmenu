@@ -45,6 +45,10 @@ If you find any issues with this please make sure to report them.
     * Added locales for es.lua
 * 1.4
     * Added webhooks to everything
+    * Added armor to the heal action
+    * Fixed an issue where godmode was deactivated by noclip
+    * Fixed an issue where invisible was deactivated by noclip
+    * Noclip no longer makes you invencible/invisible. It now has to be activated individually.
 * 1.5
     * Modified discord presence
     
