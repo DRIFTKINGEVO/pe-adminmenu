@@ -1,7 +1,7 @@
 ESX = nil
 
 PE_noclip = false
-PE_godmode = false
+PE_god = false
 PE_vanish = false
 PE_noclipSpeed = 2.01
 PE = {}
@@ -138,9 +138,9 @@ function AbrirMenuAdministrativo()
 		elseif data.current.value == 'admin_admin' then
 			local elements = {
 				{label = _U('noclip'), value = 'noclip'},
-				{label = _U('godmode'), value = 'godmode'},
+				{label = _U('god'), value = 'god'},
 				{label = _U('tp'), value = 'tp'},
-				{label = _U('tpclose'), value = 'tpclose'},
+				{label = _U('tpveh'), value = 'tpveh'},
 				{label = _U('spawnCar'), value = 'spawnCar'},
 				{label = _U('dv'), value = 'dv'},
 				{label = _U('heal'), value = 'heal'},
@@ -155,12 +155,12 @@ function AbrirMenuAdministrativo()
 			}, function(data2, menu2)
 				local accion = data2.current.value
 				if accion == 'noclip' then
-                    TriggerEvent('PE-admin:nocliped')
-				elseif accion == 'godmode' then
-                    TriggerEvent('PE-admin:godmode')
+                    TriggerEvent('PE-admin:noclip')
+				elseif accion == 'god' then
+                    TriggerEvent('PE-admin:god')
 				elseif accion == 'tp' then
 					TPtoMarker()
-				elseif accion == 'tpclose' then
+				elseif accion == 'tpveh' then
 					GoVeh()
 				elseif accion == 'spawnCar' then
                     openVehMenu('spawnCar')
@@ -374,18 +374,10 @@ end
 
 -------Events--
 
-RegisterNetEvent('PE-admin:nocliped')
-AddEventHandler('PE-admin:nocliped',function()
+RegisterNetEvent('PE-admin:noclip')
+AddEventHandler('PE-admin:noclip',function()
 	PE_noclip = not PE_noclip
     local ped = PlayerPedId()
-
-    if PE_noclip then
-    	SetEntityInvincible(ped, true)
-    	SetEntityVisible(ped, false, false)
-    else
-    	SetEntityInvincible(ped, false)
-    	SetEntityVisible(ped, true, false)
-    end
 
     if PE_noclip == true then 
 		exports['t-notify']:Alert({
@@ -418,12 +410,12 @@ AddEventHandler('PE-admin:invisible', function()
     end
 end)
 
-RegisterNetEvent('PE-admin:godmode')
-AddEventHandler('PE-admin:godmode', function()
-	godmode = not godmode
+RegisterNetEvent('PE-admin:god')
+AddEventHandler('PE-admin:god', function()
+	PE_god = not PE_god
 	local playerPed = PlayerPedId()
-	SetEntityInvincible(playerPed, not godmode, false)
-	if godmode then
+	SetEntityInvincible(playerPed, not PE_god, true)
+	if PE_god == true then
 		exports['t-notify']:Alert({
 			style  =  'error',
 			message  =  _U('god_false')
@@ -472,7 +464,7 @@ AddEventHandler('PE-admin:healPlayer', function()
     if isAdmin then 
         local PE_ped = PlayerPedId()
 		SetEntityHealth(PE_ped, 200)
-		SetEntityArmour(PE_ped, 100)
+		SetPedArmour(PE_ped, 100)
 		exports['t-notify']:Alert({
 			style  =  'success',
 			message  =  _U('heal_true')
