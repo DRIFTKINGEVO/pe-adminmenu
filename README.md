@@ -39,6 +39,16 @@ If you find any issues with this please make sure to report them.
     * Initial Release
 * 1.1
     * Modified discord presence
+* 1.2
+    * Removed discord presence for efficiency
+* 1.3
+    * Added locales for es.lua
+* 1.4
+    * Added webhooks to everything
+* 1.5
+    * Modified discord presence
+    
+
     
 ## Acknowledgments
 
