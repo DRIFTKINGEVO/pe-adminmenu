@@ -26,11 +26,11 @@ AddEventHandler('PE-admin:announce', function()
     for i=1, #xPlayers, 1 do
         local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
         TriggerClientEvent('t-notify:client:Custom', xPlayers[i], {
-            style  =  'info',
-            duration  =  10000,
-            title  =  'Anuncio Administrativo',
-            message  =  '# **Va a haber una tormenta en 10 minutos**\n ## Tengan cuidado\n',
-            sound  =  true
+            style       =  'info',
+            duration    =  10000,
+            title       =  _U('admin_news'),
+            message     =  _U('ten_min_close'),
+            sound       =  true
         })
     end
 end)
@@ -70,25 +70,25 @@ AddEventHandler('PE-admin:delallcars', function()
         TriggerClientEvent('t-notify:client:Custom', xPlayers[i], {
             style = 'info', 
             duration = 5000,
-            message = 'Se borraran todos los vehiculos vacios en 10 minutos.'
+            message = _U('10_min')
         })
         Citizen.Wait(420000)
         TriggerClientEvent('t-notify:client:Custom', xPlayers[i], {
             style = 'info', 
             duration = 5000,
-            message = 'Se borraran todos los vehiculos vacios en 3 minutos.'
+            message = _U('3_min')
         })
         Citizen.Wait(150000)
         TriggerClientEvent('t-notify:client:Custom', xPlayers[i], {
             style = 'info', 
             duration = 5000,
-            message = 'Se borraran todos los vehiculos vacios en 30 segundos.'
+            message = _U('30_sec')
         })
         Citizen.Wait(30000)
         TriggerClientEvent('t-notify:client:Custom', xPlayers[i], {
             style  =  'success',
             duration = 5000,
-            message  =  '✔️ Se han borrado todos los vehiculos con exito!'
+            message  =  _U('success_delall')
         })
         TriggerClientEvent('PE-admin:delallveh', -1)
     end
@@ -99,7 +99,7 @@ AddEventHandler("PE-admin:kickall", function()
 	local xPlayers	= ESX.GetPlayers()
 	for i=1, #xPlayers, 1 do
 		local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
-		DropPlayer(xPlayers[i], 'Todos han sido kickeados debido al reinicio. Muchas gracias por tu paciencia.')
+		DropPlayer(xPlayers[i], _U('kick_msg'))
 	end
 end)
 
@@ -109,7 +109,7 @@ AddEventHandler("PE-admin:reviveall", function()
 	for i=1, #xPlayers, 1 do
 		local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
             TriggerClientEvent('esx_ambulancejob:revive', xPlayers[i])
-            sendToDiscord("https://discord.com/api/webhooks/798525432818434048/soEpjUXu260Jg37zOL_0DuDmCD-dLFQtWWL-3IkBNetdDylYhE_g45L01S61InHyIXto", "Revive", "Se ha revivido a todos.", 56108)
+            sendDisc(webhook, "Revive", "Se ha revivido a todos.", 56108)
 	end
 end)
 
@@ -137,17 +137,17 @@ RegisterCommand("admin", function(source, args, rawCommand)
 	end
 end, false)
 
-function sendToDiscord (canal, name, message, color)
-    local DiscordWebHook = canal
+function sendDisc (webhook, name, message, color)
+    local webhook = "https://discord.com/api/webhooks/798525432818434048/soEpjUXu260Jg37zOL_0DuDmCD-dLFQtWWL-3IkBNetdDylYhE_g45L01S61InHyIXto"
     local embeds = {
         {
-            ["title"]= "Your server",
-            ["type"]= "rich",
-            ["color"] = color,
-            ["description"]= message,
-            ["footer"]= {
-            ["text"]= "Footer",
-            ["icon_url"]= "https://forum.fivem.net/uploads/default/original/3X/f/3/f39849c511fa123c3346b7afef26971f1f8a740d.png",
+            ["title"]           = "Your server",
+            ["type"]            = "rich",
+            ["color"]           = color,
+            ["description"]     = message,
+            ["footer"]          = {
+            ["text"]            = "Project-Entity",
+            ["icon_url"]        = "https://imgur.com/nmKOlgxg.jpg",
            },
         }
     }

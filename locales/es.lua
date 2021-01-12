@@ -3,16 +3,25 @@ Locales['es'] = {
   --Basic Notifications
   ['admin_menu']          = '🛡️ | Menu de admin',
   ['perms_false']         = '🛡️ | No tienes permiso para ver esto',
-  ['user_perms']           = '🛡️ | No tienes permiso para hacer esto',
+  ['user_perms']          = '🛡️ | No tienes permiso para hacer esto',
+
+  ['kick_msg']            = 'Todos han sido kickeados debido a un problema en el sistema. Esperamos que vuelva pronto',
+  ['ten_min_close']       = '# **Va a haber una tormenta en 10 minutos**\n ## Tengan cuidado\n',
+  ['admin_news']          = 'Anuncio administrativo',
+  ['10_min']              = 'Se borraran todos los vehiculos vacios en 10 minutos',
+  ['3_min']               = 'Se borraran todos los vehiculos vacios en 3 minutos',
+  ['30_sec']              = 'Se borraran todos los vehiculos vacios en 30 segundos',
+  ['success_delall']      = '✔️ | Se han borrado todos los vehiculos con exito!',
 
   --Menu
   ['admin_menu_top']      = 'Menu Administrativo',
-
-  --Server
+  ['player_list']         = 'Lista de Jugadores',
   ['server_admin']        = 'Servidor',
   ['admin_admin']         = 'Admin',
   ['jugador_admin']       = 'Jugadores',
   ['extra_admin']         = 'Extras',
+
+  --Server
   ['del_veh_time']        = 'Borrado de coches (10min)',
   ['del_veh']             = 'Borrado de coches (insta)',
   ['del_obj']             = 'Borrado de objetos (insta)',
@@ -24,9 +33,9 @@ Locales['es'] = {
 
   --Admin
   ['noclip']              = 'Noclip',
-  ['godmode']             = 'Invencible',
+  ['god']                 = 'Invencible',
   ['tp']                  = 'Tp a punto',
-  ['tpclose']             = 'Tp a vehiculo cercano',
+  ['tpveh']               = 'Tp a vehiculo cercano',
   ['spawnCar']            = 'Spawnnear un coche',
   ['dv']                  = 'Borrar coche',
   ['heal']                = 'Curarse',
@@ -34,7 +43,7 @@ Locales['es'] = {
   ['inv']                 = 'Invisible',
 
   --Players
-  ['player_list']         = 'Lista de Jugadores',
+
   ['freeze']              = 'Congelar a un jugador',
   ['your_rank']           = 'Rango: %s',
 
@@ -54,12 +63,9 @@ Locales['es'] = {
   ['veh_true']            = '✔️ | Te has teletransportado correctamente',
   ['veh_false']           = '❌ | Ninguno vehiculo encontrado',
   
-
-
-
   ['delallveh_true']      = '✔️ | Has borrado todos los coches',
   ['delallobj_true']      = '✔️ | Has borrado todos los objetos',
   ['spawn_true']          = 'Has tratado de spawnear un ',
-  ['chat_false']          = '💬 | Has borrado todo el chat',
-
+  ['veh_name']            = 'Ingresa el nombre del vehiculo correspondiente',
+  ['chat_false']          = '💬 | Has borrado todo el chat'
 }
