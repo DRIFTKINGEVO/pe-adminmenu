@@ -1,4 +1,14 @@
 Locales['es'] = {
+
+  --Basic Notifications
+  ['admin_menu']          = '🛡️ | Menu de admin',
+  ['perms_false']         = '🛡️ | No tienes permiso para ver esto',
+  ['user_perms']           = '🛡️ | No tienes permiso para hacer esto',
+
+  --Menu
+  ['admin_menu_top']      = 'Menu Administrativo',
+
+  --Server
   ['server_admin']        = 'Servidor',
   ['admin_admin']         = 'Admin',
   ['jugador_admin']       = 'Jugadores',
@@ -29,7 +39,27 @@ Locales['es'] = {
   ['your_rank']           = 'Rango: %s',
 
   --Notifications
-  ['player_list']         = 'Lista de Jugadores',
-  ['freeze']              = 'Congelar a un jugador',
-  ['your_rank']           = 'Rango: %s',
+  ['noclip_true']         = '✔️ | Has activado el noclip',
+  ['noclip_false']        = '❌ | Has desactivado el noclip',
+  ['god_true']            = '✔️ | Has activado el Godmode',
+  ['god_false']           = '❌ | Has desactivado el Godmode',
+  ['inv_true']            = '✔️ | Has activado el modo invisible',
+  ['inv_false']           = '❌ | Has desactivado el modo invisible',
+  ['fix_true']            = '✔️ | Has reparado el vehiculo',
+  ['fix_false']           = '❌ | Tienes que estar en un vehiculo',
+  ['heal_true']           = '✔️ | Te has curado',
+  ['tp_true']             = '✔️ | Te has teletransportado',
+  ['tp_false']            = '❓ | Marca un punto',
+  ['veh_wait']            = 'Espera, no te muevas...',
+  ['veh_true']            = '✔️ | Te has teletransportado correctamente',
+  ['veh_false']           = '❌ | Ninguno vehiculo encontrado',
+  
+
+
+
+  ['delallveh_true']      = '✔️ | Has borrado todos los coches',
+  ['delallobj_true']      = '✔️ | Has borrado todos los objetos',
+  ['spawn_true']          = 'Has tratado de spawnear un ',
+  ['chat_false']          = '💬 | Has borrado todo el chat',
+
 }
