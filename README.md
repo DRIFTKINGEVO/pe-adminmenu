@@ -48,9 +48,14 @@ If you find any issues with this please make sure to report them.
     * Added armor to the heal action
     * Fixed an issue where godmode was deactivated by noclip
     * Fixed an issue where invisible was deactivated by noclip
+    * Fixed clear chat for all
+    * Fixed Spanish locale
     * Noclip no longer makes you invencible/invisible. It now has to be activated individually.
+    * Optimized a little bit
+    * Changed tp to the closest vehicle
+    * Changed tpm for optimization.
 * 1.5
-    * Modified discord presence
+
     
 
     
