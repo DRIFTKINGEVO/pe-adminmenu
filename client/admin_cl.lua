@@ -43,13 +43,13 @@ Citizen.CreateThread(function()
 		if IsControlJustReleased(0, 56) and isAdmin then 
 			exports['t-notify']:Alert({
 				style = 'warning', 
-				message = '🛡️ | Menu de admin'
+				message = _U('admin_menu')
 			})
 			AbrirMenuAdministrativo()
 		elseif IsControlJustReleased(0, 56) and not isAdmin then 
 			exports['t-notify']:Alert({
 				style = 'error', 
-				message = '🛡️ | No tienes permiso para ver esto.'
+				message = _U('perms_false')
 			})
         end 
         if PE_noclip then
@@ -82,7 +82,7 @@ function AbrirMenuAdministrativo()
 	ESX.UI.Menu.CloseAll()
 	
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'admin_actions', {
-		title    = 'Menu Administrativo',
+		title    = _U('admin_menu_top'),
 		align    = 'right',
 		elements = {
 			{label = _U('server_admin'), value = 'server_admin'},
@@ -111,7 +111,7 @@ function AbrirMenuAdministrativo()
 					TriggerEvent('PE-admin:delallveh')
 					exports['t-notify']:Alert({
 						style  =  'success',
-						message  =  '✔️ | Has borrado todos los coches.'
+						message  =  _U('delallveh_true')
 					})
 				elseif accion == 'del_veh_time' then
 					TriggerServerEvent('PE-admin:delallcars')
@@ -119,7 +119,7 @@ function AbrirMenuAdministrativo()
 					TriggerEvent('PE-admin:delallobj')
 					exports['t-notify']:Alert({
 						style  =  'success',
-						message  =  '✔️ | Has borrado todos los objetos.'
+						message  =  '✔️ | Has borrado todos los objetos'
 					})
 				elseif accion == 'del_chat' then
 					TriggerServerEvent('PE-admin:clearchat')
@@ -334,14 +334,14 @@ end
 function openVehMenu(type)
 	ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'getterAdminMenu',
 	{
-		title = "Ingrese el parámetro correspondiente",
+		title = _U('veh_name'),
 	}, function(data, menu)
 		local parameter = data.value
 		if type == "spawnCar" then
 			TriggerEvent('esx:spawnVehicle', parameter)
 			exports['t-notify']:Alert({
 				style  =  'info',
-				message  =  'Has tratado de spawnear un ' ..parameter
+				message  =  _U('spawn_true') ..parameter
 			})
 		end
 
@@ -372,31 +372,6 @@ end
 end
 ]]
 
-RegisterNetEvent('PE-admin:nocliped')
-AddEventHandler('PE-admin:nocliped',function()
-	PE_noclip = not PE_noclip
-    local ped = PlayerPedId()
-
-    if PE_noclip then
-    	SetEntityInvincible(ped, true)
-    	SetEntityVisible(ped, false, false)
-    else
-    	SetEntityInvincible(ped, false)
-    	SetEntityVisible(ped, true, false)
-    end
-
-    if PE_noclip == true then 
-		exports['t-notify']:Alert({
-			style  =  'success',
-			message  =  '✔️ | Has activado el noclip.'
-		})
-    else
-		exports['t-notify']:Alert({
-			style  =  'error',
-			message  =  '❌ | Has desactivado el modo invisible.'
-		})	
-    end
-end)
 -------Events--
 
 RegisterNetEvent('PE-admin:nocliped')
@@ -415,12 +390,12 @@ AddEventHandler('PE-admin:nocliped',function()
     if PE_noclip == true then 
 		exports['t-notify']:Alert({
 			style  =  'success',
-			message  =  '✔️ | Has activado el noclip.'
+			message  =  _U('noclip_true')
 		})
     else
 		exports['t-notify']:Alert({
 			style  =  'error',
-			message  =  '❌ | Has desactivado el modo invisible.'
+			message  =  _U('noclip_false')
 		})	
     end
 end)
@@ -433,12 +408,12 @@ AddEventHandler('PE-admin:invisible', function()
     if PE_vanish == true then 
 		exports['t-notify']:Alert({
 			style  =  'success',
-			message  =  '✔️ | Has activado el modo invisible.'
+			message  =  _U('inv_true')
 		})
     else
 		exports['t-notify']:Alert({
 			style  =  'error',
-			message  =  '❌ | Has desactivado el modo invisible.'
+			message  =  _U('inv_false')
 		})	
     end
 end)
@@ -451,12 +426,12 @@ AddEventHandler('PE-admin:godmode', function()
 	if godmode then
 		exports['t-notify']:Alert({
 			style  =  'error',
-			message  =  '❌ | Has desactivado el Godmode.'
+			message  =  _U('god_false')
 		})		
 	else
 		exports['t-notify']:Alert({
 			style  =  'success',
-			message  =  '✔️ | Has activado el Godmode.'
+			message  =  _U('god_true')
 		})		
 	end
 end)
@@ -466,7 +441,7 @@ AddEventHandler("PE-admin:clearchat", function()
     TriggerEvent('chat:clear', -1)
 	exports['t-notify']:Alert({
 		style  =  'info',
-		message  =  '💬 | Has borrado todo el chat.'
+		message  =  _U('chat_false')
 	})
 end)
 
@@ -481,12 +456,12 @@ AddEventHandler('PE-admin:repairVehicle', function()
         SetVehicleEngineOn(plyVeh, true, true)
 		exports['t-notify']:Alert({
 			style  =  'success',
-			message  =  '✔️ | Has reparado el vehiculo.'
+			message  =  _U('fix_true')
 		})
     else
 		exports['t-notify']:Alert({
 			style  =  'error',
-			message  =  '❌ | Tienes que estar en un vehiculo.'
+			message  =  _U('fix_false')
 		})
     end
 end)
@@ -496,10 +471,11 @@ RegisterNetEvent('PE-admin:healPlayer')
 AddEventHandler('PE-admin:healPlayer', function()
     if isAdmin then 
         local PE_ped = PlayerPedId()
-        SetEntityHealth(PE_ped, 200)
+		SetEntityHealth(PE_ped, 200)
+		SetEntityArmour(PE_ped, 100)
 		exports['t-notify']:Alert({
 			style  =  'success',
-			message  =  '✔️ | Te has curado.'
+			message  =  _U('heal_true')
 		})
         ClearPedBloodDamage(PE_ped)
         ResetPedVisibleDamage(PE_ped)
@@ -507,7 +483,7 @@ AddEventHandler('PE-admin:healPlayer', function()
     else
 		exports['t-notify']:Alert({
 			style  =  'error',
-			message  =  '❌ | No eres admin.'
+			message  =  _U('user_perms')
 		})
     end
 end)
@@ -599,29 +575,28 @@ TPtoMarker = function()
                     break
                 end
 
-                Citizen.Wait(10)
+                Citizen.Wait(25)
             end
 			exports['t-notify']:Alert({
 				style  =  'success',
-				message  =  '✔️ | Te has teletransportado.'
+				message  =  _U('tp_true')
 			})
         else
 			exports['t-notify']:Alert({
 				style  =  'info',
-				message  =  '❓ | Marca un punto.'
+				message  =  _U('tp_false')
 			})
         end
 	else
 		exports['t-notify']:Alert({
 			style  =  'error',
-			message = '🛡️ | No tienes permiso para realizar esta accion.'
+			message = _U('user_perms')
 		})
     end
 end
 
 ---------Weapon Drop---------
-
-function SetWeaponDrops()
+function NoWeapons()
 	local handle, ped = FindFirstPed()
 	local finished = false
 
@@ -638,7 +613,7 @@ end
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(1000)
-		SetWeaponDrops()
+		NoWeapons()
 	end
 end)
 
@@ -656,7 +631,6 @@ function GetPlayers()
 end
 
 -------TP to veh
-
 function GoVeh()
 	local playerPed = PlayerPedId()
 	local playerPedPos = GetEntityCoords(playerPed, true)
@@ -666,14 +640,14 @@ function GoVeh()
 	local NearestPlanePos = GetEntityCoords(NearestPlane, true)
 	exports['t-notify']:Alert({
 		style  =  'info',
-		message  =  'Espera, no te muevas...',
+		message  =  _U('veh_wait'),
 		duration = 1200
 	})
 	Citizen.Wait(1600)
 	if (NearestVehicle == 0) and (NearestPlane == 0) then
 		exports['t-notify']:Alert({
 			style  =  'error',
-			message  =  '❌ | Ninguno vehiculo encontrado.'
+			message  =  _U('veh_false')
 		})
 	elseif (NearestVehicle == 0) and (NearestPlane ~= 0) then
 		if IsVehicleSeatFree(NearestPlane, -1) then
@@ -695,7 +669,7 @@ function GoVeh()
 		end
 			exports['t-notify']:Alert({
 				style  =  'success',
-				message  =  '✔️ | Te has teletransportado correctamente.'
+				message  =  _U('veh_true')
 			})
 	elseif (NearestVehicle ~= 0) and (NearestPlane == 0) then
 		if IsVehicleSeatFree(NearestVehicle, -1) then
@@ -717,7 +691,7 @@ function GoVeh()
 		end
 			exports['t-notify']:Alert({
 				style  =  'success',
-				message  =  '✔️ | Te has teletransportado correctamente.'
+				message  =  _U('veh_true')
 			})
 	elseif (NearestVehicle ~= 0) and (NearestPlane ~= 0) then
 		if Vdist(NearestVehiclePos.x, NearestVehiclePos.y, NearestVehiclePos.z, playerPedPos.x, playerPedPos.y, playerPedPos.z) < Vdist(NearestPlanePos.x, NearestPlanePos.y, NearestPlanePos.z, playerPedPos.x, playerPedPos.y, playerPedPos.z) then
@@ -759,7 +733,7 @@ function GoVeh()
 		end
 			exports['t-notify']:Alert({
 				style  =  'success',
-				message  =  '✔️ | Te has teletransportado correctamente.'
+				message  =  _U('veh_true')
 			})
 		Citizen.Wait(1)	
 	end
