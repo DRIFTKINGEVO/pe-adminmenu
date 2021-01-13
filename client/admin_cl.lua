@@ -40,13 +40,13 @@ end)
 Citizen.CreateThread(function()
     while true do 
         Citizen.Wait(1)
-		if IsControlJustReleased(0, 56) and isAdmin then 
+		if IsControlJustReleased(0, Config.Key) and isAdmin then 
 			exports['t-notify']:Alert({
 				style = 'warning', 
 				message = _U('admin_menu')
 			})
 			AbrirMenuAdministrativo()
-		elseif IsControlJustReleased(0, 56) and not isAdmin then 
+		elseif IsControlJustReleased(0, Config.Key) and not isAdmin then 
 			exports['t-notify']:Alert({
 				style = 'error', 
 				message = _U('perms_false')

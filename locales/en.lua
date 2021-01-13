@@ -20,7 +20,6 @@ Locales['es'] = {
   ['admin_admin']         = 'Admin',
   ['jugador_admin']       = 'Jugadores',
   ['extra_admin']         = 'Extras',
-  ['player_name']         = 'Nombre: %s',
 
   --Server
   ['del_veh_time']        = 'Borrado de coches (10min)',
@@ -32,6 +31,7 @@ Locales['es'] = {
   ['revive_all']          = 'Revivir a todos',
   ['custom_announce']     = 'En prog',
 
+  ['player_name']         = 'Nombre: %s',
 
   --Admin
   ['noclip']              = 'Noclip',
@@ -69,25 +69,5 @@ Locales['es'] = {
   ['delallobj_true']      = '✔️ | Has borrado todos los objetos',
   ['spawn_true']          = 'Has tratado de spawnear un ',
   ['veh_name']            = 'Ingresa el nombre del vehiculo correspondiente',
-  ['chat_false']          = '💬 | Has borrado todo el chat',
-
-  --Webhooks
-  ['revive_hook']         = 'Revivir a todos',
-  ['revive2_hook']        = 'Se ha revivido a todos',
-  ['rank_hook']           = 'ID: ',
-  ['rank2_hook']          = 'El rango del jugador es: %s', 
-  ['hook']              = '',
-  ['hook']      = '',
-  ['hook']      = '',
-  ['hook']      = '',
-  ['hook']      = '',
-  ['hook']      = '',
-  ['hook']      = '',
-  ['hook']      = '',
-  ['hook']      = '',
-  ['hook']      = '',
-  ['hook']      = '',
-  ['hook']      = '',
-  ['hook']      = '',
-  ['hook']      = '',
+  ['chat_false']          = '💬 | Has borrado todo el chat'
 }
