@@ -1,4 +1,4 @@
-Locales['es'] = {
+Locales['en'] = {
 
   --Basic Notifications
   ['admin_menu']          = '🛡️ | Menu de admin',

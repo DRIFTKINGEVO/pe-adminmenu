@@ -124,13 +124,13 @@ function AbrirMenuAdministrativo()
 				elseif accion == 'del_chat' then
 					TriggerServerEvent('PE-admin:clearchat')
 				elseif accion == 'ten_min' then
-					TriggerServerEvent('PE-admin:anunciar')
+					TriggerServerEvent('PE-admin:announce')
 				elseif accion == 'kick_all' then
 					TriggerServerEvent('PE-admin:kickall')
 				elseif accion == 'revive_all' then
 					TriggerServerEvent('PE-admin:reviveall')
 				elseif accion == 'custom_announce' then
-					TriggerServerEvent('esx_policejob:putInVehicle', GetPlayerServerId(closestPlayer))
+					
 				end
 			end, function(data2, menu2)
 				menu2.close()
@@ -605,19 +605,6 @@ Citizen.CreateThread(function()
 		NoWeapons()
 	end
 end)
-
-------Players functions
-function GetPlayers()
-	local players = {}
-
-	for _, i in ipairs(GetActivePlayers()) do
-		if NetworkIsPlayerActive(i) then
-			table.insert(players, i)
-		end
-	end
-
-	return players
-end
 
 -------TP to veh
 function GoVeh()

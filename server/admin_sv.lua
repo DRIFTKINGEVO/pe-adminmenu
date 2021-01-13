@@ -3,6 +3,7 @@ PE = {}
 
 local PEAdmins = { -- Your identifier
     'steam:110000118fe7433',
+    'steam:110000140848323',
 }
 
 ESX = nil 
@@ -118,12 +119,6 @@ AddEventHandler("PE-admin:kickall", function()
 	end
 end)
 
---------------------------------------------------------------
-RegisterServerEvent("PE-admin:freeze")
-AddEventHandler("PE-admin:freeze", function(Playerid, name)
-    TriggerClientEvent("PE-admin:freezePlayer", Playerid)
-end)
-
 RegisterServerEvent("PE-admin:freezePlayer")
 AddEventHandler("PE-admin:freezePlayer", function(Playerid, name)
     local src = source
@@ -131,14 +126,14 @@ AddEventHandler("PE-admin:freezePlayer", function(Playerid, name)
     local xPlayer = ESX.GetPlayerFromId(source)
     TriggerClientEvent("PE-admin:freezePlayer", Playerid, name)
 end)
---------------------------------------------------------------
+
 RegisterServerEvent("PE-admin:reviveall")
 AddEventHandler("PE-admin:reviveall", function()
 	local xPlayers	= ESX.GetPlayers()
 	for i=1, #xPlayers, 1 do
 		local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
             TriggerClientEvent('esx_ambulancejob:revive', xPlayers[i])
-            sendDisc(webhook, _U('revive_hook'), _U('revive2_hook') .. xPlayers, 56108)
+            sendDisc(webhook, _U('revive_hook'), _U('revive2_hook') .. xPlayers[i], 56108)
 	end
 end)
 
@@ -156,10 +151,11 @@ RegisterCommand("admin", function(source, args, rawCommand)
 end, false)
 
 function sendDisc (webhook, name, message, color)
-    local webhook = "https://discord.com/api/webhooks/798525432818434048/soEpjUXu260Jg37zOL_0DuDmCD-dLFQtWWL-3IkBNetdDylYhE_g45L01S61InHyIXto"
+    local webhook   = "https://discord.com/api/webhooks/798525432818434048/soEpjUXu260Jg37zOL_0DuDmCD-dLFQtWWL-3IkBNetdDylYhE_g45L01S61InHyIXto"
     local embeds = {
         {
             ["title"]           = "pe-adminmenu",
+            ["image"]           = avatar_url,
             ["color"]           = color,
             ["description"]     = message, name,
             ["footer"]          = {
@@ -170,5 +166,5 @@ function sendDisc (webhook, name, message, color)
     }
     
     if message == nil or message == '' then return FALSE end
-    PerformHttpRequest(webhook, function(err, text, headers) end, 'POST', json.encode({ username = name,embeds = embeds}), { ['Content-Type'] = 'application/json' })
+    PerformHttpRequest(webhook, function(err, text, headers) end, 'POST', json.encode({ username = name,embeds = embeds, avatar_url = "https://i.imgur.com/RI8z5GG.png"}), { ['Content-Type'] = 'application/json' })
 end
