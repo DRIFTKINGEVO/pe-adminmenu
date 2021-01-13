@@ -12,7 +12,7 @@ client_scripts {
     '@es_extended/locale.lua',
     'client/admin_cl.lua',
     'client/entityiter.lua',
-    'locales/es.lua',
+    'locales/*.lua',
     'config.lua'
 }
 
@@ -20,6 +20,6 @@ server_scripts {
     '@mysql-async/lib/MySQL.lua',
     '@es_extended/locale.lua',
     'server/admin_sv.lua',
-    'locales/es.lua',
+    'locales/*.lua',
     'config.lua'
 }
