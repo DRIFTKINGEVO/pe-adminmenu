@@ -103,6 +103,19 @@ AddEventHandler("PE-admin:kickall", function()
 	end
 end)
 
+RegisterServerEvent("PE-admin:freeze")
+AddEventHandler("PE-admin:freeze", function(Playerid, name)
+    TriggerClientEvent("PE-admin:freezePlayer", Playerid)
+end)
+
+RegisterServerEvent("PE-admin:freezePlayer")
+AddEventHandler("PE-admin:freezePlayer", function(Playerid, name)
+    local src = source
+    local Playerid = tonumber(Playerid)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    TriggerClientEvent("PE-admin:freezePlayer", Playerid, name)
+end)
+
 RegisterServerEvent("PE-admin:reviveall")
 AddEventHandler("PE-admin:reviveall", function()
 	local xPlayers	= ESX.GetPlayers()
@@ -147,11 +160,11 @@ function sendDisc (webhook, name, message, color)
             ["description"]     = message,
             ["footer"]          = {
             ["text"]            = "Project-Entity",
-            ["icon_url"]        = "https://imgur.com/nmKOlgxg.jpg",
+            ["icon_url"]        = "https://i.imgur.com/RI8z5GG.png",
            },
         }
     }
     
       if message == nil or message == '' then return FALSE end
-      PerformHttpRequest(DiscordWebHook, function(err, text, headers) end, 'POST', json.encode({ username = name,embeds = embeds}), { ['Content-Type'] = 'application/json' })
+      PerformHttpRequest(webhook, function(err, text, headers) end, 'POST', json.encode({ username = name,embeds = embeds}), { ['Content-Type'] = 'application/json' })
     end

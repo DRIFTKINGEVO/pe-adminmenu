@@ -31,6 +31,8 @@ Locales['es'] = {
   ['revive_all']          = 'Revivir a todos',
   ['custom_announce']     = 'En prog',
 
+  ['are_you_sure'] = 'Are you sure you want wanted %s?',
+
   --Admin
   ['noclip']              = 'Noclip',
   ['god']                 = 'Invencible',

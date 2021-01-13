@@ -226,14 +226,11 @@ function OpenPlayerMenu()
 						}
 					}, function(data3, menu3)
 						menu3.close()
-						local name = data3.current.name
-						local Playerid = data3.current.value
-						local identifier = data3.current.identifier
+						local name = data2.current.name
+						local Playerid = data2.current.value
 		
-						if Playerid == 'freeze' then
-							TriggerEvent('PE-admin:freezePlayer')
-						elseif identifier == 'kick' then
-							TriggerServerEvent('PE-admin:kickplayer')
+						if data3.current.value == 'freeze' then
+							TriggerServerEvent('PE-admin:freezePlayer', Playerid, name)
 							
 						end
 					end, function(data3, menu3)
