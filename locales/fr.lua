@@ -69,7 +69,11 @@ Locales['fr'] = {
   ['delallobj_true']      = '✔️ | Vous avez supprimé tous les objets ',
   ['spawn_true']          = 'Vous avez essayé dengendrer un ',
   ['veh_name']            = 'Indiquez le nom du véhicule correspondant',
+<<<<<<< HEAD
   ['chat_false']          = '💬 | Vous avez supprimé tout le chat'
+=======
+  ['chat_false']          = '💬 | Vous avez supprimé tout le chat',
+>>>>>>> e30eb5313c6c7c7f96d170464cd9f0aa1747dbea
 
   --Webhooks
   ['revive_hook']         = 'Ranimer tout le monde',
@@ -90,4 +94,8 @@ Locales['fr'] = {
   ['hook']      = '',
   ['hook']      = '',
   ['hook']      = '',
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> e30eb5313c6c7c7f96d170464cd9f0aa1747dbea
