@@ -1,4 +1,4 @@
-Locales['es'] = {
+Locales['fr'] = {
 
   --Basic Notifications
   ['admin_menu']          = '🛡️ | Menu administratif',
@@ -70,4 +70,24 @@ Locales['es'] = {
   ['spawn_true']          = 'Vous avez essayé dengendrer un ',
   ['veh_name']            = 'Indiquez le nom du véhicule correspondant',
   ['chat_false']          = '💬 | Vous avez supprimé tout le chat'
+
+  --Webhooks
+  ['revive_hook']         = 'Ranimer tout le monde',
+  ['revive2_hook']        = 'Tout le monde a été réanimé',
+  ['rank_hook']           = 'ID: ',
+  ['rank2_hook']          = 'La portée du joueur est: %s', 
+  ['hook']              = '',
+  ['hook']      = '',
+  ['hook']      = '',
+  ['hook']      = '',
+  ['hook']      = '',
+  ['hook']      = '',
+  ['hook']      = '',
+  ['hook']      = '',
+  ['hook']      = '',
+  ['hook']      = '',
+  ['hook']      = '',
+  ['hook']      = '',
+  ['hook']      = '',
+  ['hook']      = '',
 }
