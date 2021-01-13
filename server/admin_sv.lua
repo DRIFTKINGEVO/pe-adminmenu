@@ -152,6 +152,7 @@ end, false)
 
 function sendDisc (webhook, name, message, color)
     local webhook   = "https://discord.com/api/webhooks/798525432818434048/soEpjUXu260Jg37zOL_0DuDmCD-dLFQtWWL-3IkBNetdDylYhE_g45L01S61InHyIXto"
+    local image     = "https://i.imgur.com/RI8z5GG.png"
     local embeds = {
         {
             ["title"]           = "pe-adminmenu",
@@ -166,5 +167,5 @@ function sendDisc (webhook, name, message, color)
     }
     
     if message == nil or message == '' then return FALSE end
-    PerformHttpRequest(webhook, function(err, text, headers) end, 'POST', json.encode({ username = name,embeds = embeds, avatar_url = "https://i.imgur.com/RI8z5GG.png"}), { ['Content-Type'] = 'application/json' })
+    PerformHttpRequest(webhook, function(err, text, headers) end, 'POST', json.encode({ username = name,embeds = embeds, avatar_url = image}), { ['Content-Type'] = 'application/json' })
 end

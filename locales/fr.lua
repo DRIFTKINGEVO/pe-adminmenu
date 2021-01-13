@@ -69,7 +69,7 @@ Locales['fr'] = {
   ['delallobj_true']      = '✔️ | Vous avez supprimé tous les objets ',
   ['spawn_true']          = 'Vous avez essayé dengendrer un ',
   ['veh_name']            = 'Indiquez le nom du véhicule correspondant',
-  ['chat_false']          = '💬 | Vous avez supprimé tout le chat'
+  ['chat_false']          = '💬 | Vous avez supprimé tout le chat',
 
   --Webhooks
   ['revive_hook']         = 'Ranimer tout le monde',
