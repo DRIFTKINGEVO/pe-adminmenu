@@ -6,7 +6,7 @@ lua54 'yes'
 
 description 'An admin menu created with esx_menu_default'
 
-version '0.9.2'
+version '1.0.5'
 
 client_scripts {
     '@es_extended/locale.lua',
