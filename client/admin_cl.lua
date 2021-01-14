@@ -1,9 +1,10 @@
 ESX = nil
 
 PE_noclip = false
+PE_noclipveh = false
 PE_god = false
 PE_vanish = false
-PE_noclipSpeed = 2.01
+PE_noclipSpeed = 1.95
 PE = {}
 Citizen.CreateThread(function()
     while ESX == nil do
@@ -54,30 +55,49 @@ Citizen.CreateThread(function()
         end 
         if PE_noclip then
             local ped = PlayerPedId()
-            local x,y,z = getPosition()
-            local dx,dy,dz = getCamDirection()
+            local x, y, z = getPosition()
+            local px, py, pz = getCamDirection()
             local speed = PE_noclipSpeed
-        
-  
-            SetEntityVelocity(ped, 0.05,  0.05,  0.05)
-  
+
+
             if IsControlPressed(0, 32) then
-                x = x + speed * dx
-                y = y + speed * dy
-                z = z + speed * dz
-            end
+                x = x + speed * px
+                y = y + speed * py
+                z = z + speed * pz
   
-            if IsControlPressed(0, 269) then
-                x = x - speed * dx
-                y = y - speed * dy
-                z = z - speed * dz
+			elseif IsControlPressed(0, 33) then
+                x = x - speed * px
+                y = y - speed * py
+                z = z - speed * pz
             end
+			SetEntityVelocity(ped, 0.05,  0.05,  0.05)
+            SetEntityCoordsNoOffset(ped, x, y, z, true, true, true)
+		end
+
+        if PE_noclipveh then
+            local ped = GetVehiclePedIsIn(PlayerPedId(), false)
+            local x, y, z = getPosition()
+            local px, py, pz = getCamDirection()
+            local speed = PE_noclipSpeed
+
+
+            if IsControlPressed(0, 32) then
+                x = x + speed * px
+                y = y + speed * py
+                z = z + speed * pz
   
-            SetEntityCoordsNoOffset(ped,x,y,z,true,true,true)
+			elseif IsControlPressed(0, 33) then
+                x = x - speed * px
+                y = y - speed * py
+                z = z - speed * pz
+            end
+			SetEntityVelocity(ped, 0.05,  0.05,  0.05)
+            SetEntityCoordsNoOffset(ped, x, y, z, true, true, true)
         end
+
 	end
 end)
-
+--SetPedCoordsKeepVehicle
 function AbrirMenuAdministrativo()
 	ESX.UI.Menu.CloseAll()
 	
@@ -138,6 +158,7 @@ function AbrirMenuAdministrativo()
 		elseif data.current.value == 'admin_admin' then
 			local elements = {
 				{label = _U('noclip'), value = 'noclip'},
+				{label = _U('noclipveh'), value = 'noclipveh'},
 				{label = _U('god'), value = 'god'},
 				{label = _U('tp'), value = 'tp'},
 				{label = _U('tpveh'), value = 'tpveh'},
@@ -155,7 +176,9 @@ function AbrirMenuAdministrativo()
 			}, function(data2, menu2)
 				local accion = data2.current.value
 				if accion == 'noclip' then
-                    TriggerEvent('PE-admin:noclip')
+					TriggerEvent('PE-admin:noclip')
+				elseif accion == 'noclipveh' then
+                    TriggerEvent('PE-admin:noclipveh')
 				elseif accion == 'god' then
                     TriggerEvent('PE-admin:god')
 				elseif accion == 'tp' then
@@ -177,30 +200,6 @@ function AbrirMenuAdministrativo()
 				menu2.close()
 			end)
 		elseif data.current.value == 'jugador_admin' then
-			TriggerEvent("PE-admin:openplayermenu")
-			-----------------------------------------------------------------------------------------------
-		end
-	end, function(data, menu)
-		menu.close()
-	end)
-end
-
------------------------------------------------------------------
-RegisterNetEvent("PE-admin:openplayermenu")
-AddEventHandler("PE-admin:openplayermenu", function()
-	OpenPlayerMenu()
-end)
-
-function OpenPlayerMenu()
-	ESX.UI.Menu.CloseAll()
-
-	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'player_list', {
-		title    = _U('player_list'),
-		align    = 'right',
-		elements = {
-			{label = _U('player_list'), value = 'player_list'}
-	}}, function(data, menu)
-		if data.current.value == 'player_list' then
 			ESX.TriggerServerCallback('PE-admin:playersonline', function(players)
 				local elements = {}
 				for i=1, #players, 1 do
@@ -211,18 +210,18 @@ function OpenPlayerMenu()
 							identifier = players[i].identifier
 						})
 				end
-				ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'recruit_', {
+				ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'player_', {
 					title    = _U('player_list'),
 					align    = 'right',
 					elements = elements
 				}, function(data2, menu2)
 		
-					ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'recruit_confirm_', {
-						title    = _U('are_you_sure', data2.current.name),
+					ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'player_confirm_', {
+						title    = _U('player_name', data2.current.value),
 						align    = 'right',
 						elements = {
-							{label = "Freeze", value = 'freeze'},
-							{label = "Kick", value = 'kick'}
+							{label = _U('freeze'), value = 'freeze'},
+							{label = _U('kick'), value = 'kick'}
 						}
 					}, function(data3, menu3)
 						menu3.close()
@@ -231,6 +230,8 @@ function OpenPlayerMenu()
 		
 						if data3.current.value == 'freeze' then
 							TriggerServerEvent('PE-admin:freezePlayer', Playerid, name)
+						elseif data3.current.value == 'kick' then
+							TriggerServerEvent('PE-admin:kickPlayer', Playerid, name)
 							
 						end
 					end, function(data3, menu3)
@@ -348,28 +349,24 @@ function openVehMenu(type)
 	end)
 end
 
---[[function openMoneyMenu(type)
-	ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'getterMoneyMenu',
-	{
-		title = "Ingrese el parámetro correspondiente",
-	}, function(data, menu)
-		local parameter = data.value
-		if type == "giveMoney" then
-			TriggerEvent('esx:spawnVehicle', parameter)
-			exports['t-notify']:Alert({
-				style  =  'info',
-				message  =  'Has tratado de spawnear un ' ..parameter
-			})
-		end
+-------Events-----------
+RegisterNetEvent('PE-admin:noclipveh')
+AddEventHandler('PE-admin:noclipveh',function()
+	PE_noclipveh = not PE_noclipveh
+    local ped = GetVehiclePedIsIn(PlayerPedId(), false)
 
-		menu.close()
-	end, function(data, menu)
-		menu.close()
-	end)
-end
-]]
-
--------Events--
+    if PE_noclipveh == true then 
+		exports['t-notify']:Alert({
+			style  =  'success',
+			message  =  _U('noclip_true')
+		})
+    else
+		exports['t-notify']:Alert({
+			style  =  'error',
+			message  =  _U('noclip_false')
+		})	
+    end
+end)
 
 RegisterNetEvent('PE-admin:noclip')
 AddEventHandler('PE-admin:noclip',function()
@@ -511,14 +508,15 @@ AddEventHandler("PE-admin:freezePlayer", function(input)
     if freeze == true then
         SetEntityCollision(ped, false)
         FreezeEntityPosition(ped, true)
-        SetPlayerInvincible(player, true)
+		SetPlayerInvincible(player, true)
+		ClearPedTasksImmediately(ped, true)
     else
         SetEntityCollision(ped, true)
 	    FreezeEntityPosition(ped, false)  
-        SetPlayerInvincible(player, false)
+		SetPlayerInvincible(player, false)
+		ClearPedTasksImmediately(ped, false)
     end
-end) 
-
+end)
 ----------Noclip function------------
 
 getPosition = function()
@@ -583,28 +581,6 @@ TPtoMarker = function()
 		})
     end
 end
-
----------Weapon Drop---------
-function NoWeapons()
-	local handle, ped = FindFirstPed()
-	local finished = false
-
-	repeat
-		if not IsEntityDead(ped) then
-			SetPedDropsWeaponsWhenDead(ped, false)
-		end
-		finished, ped = FindNextPed(handle)
-	until not finished
-
-	EndFindPed(handle)
-end
-
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(1000)
-		NoWeapons()
-	end
-end)
 
 -------TP to veh
 function GoVeh()

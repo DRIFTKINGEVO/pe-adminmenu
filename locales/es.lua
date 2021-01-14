@@ -5,7 +5,7 @@ Locales['es'] = {
   ['perms_false']         = '🛡️ | No tienes permiso para ver esto',
   ['user_perms']          = '🛡️ | No tienes permiso para hacer esto',
 
-  ['kick_msg']            = 'Todos han sido kickeados debido a un problema en el sistema. Esperamos que vuelva pronto',
+  ['kick_msg']            = 'Todos han sido kickeados debido a un problema en el sistema. Esperamos que vuelvan pronto.',
   ['ten_min_close']       = '# **Va a haber una tormenta en 10 minutos**\n ## Tengan cuidado\n',
   ['admin_news']          = 'Anuncio administrativo',
   ['10_min']              = 'Se borraran todos los vehiculos vacios en 10 minutos',
@@ -20,7 +20,7 @@ Locales['es'] = {
   ['admin_admin']         = 'Admin',
   ['jugador_admin']       = 'Jugadores',
   ['extra_admin']         = 'Extras',
-  ['player_name']         = 'Nombre: %s',
+  ['player_name']         = 'ID: %s',
 
   --Server
   ['del_veh_time']        = 'Borrado de coches (10min)',
@@ -35,10 +35,11 @@ Locales['es'] = {
 
   --Admin
   ['noclip']              = 'Noclip',
+  ['noclipveh']           = 'Noclip vehiculo',
   ['god']                 = 'Invencible',
   ['tp']                  = 'Tp a punto',
   ['tpveh']               = 'Tp a vehiculo cercano',
-  ['spawnCar']            = 'Spawnnear un coche',
+  ['spawnCar']            = 'Spawnear un coche',
   ['dv']                  = 'Borrar coche',
   ['heal']                = 'Curarse',
   ['fix']                 = 'Reparar',
@@ -47,6 +48,9 @@ Locales['es'] = {
   --Players
 
   ['freeze']              = 'Congelar a un jugador',
+  ['kick']                = 'Kickear jugador',
+  ['kick_id']             = ' ID: ',
+  ['kick_msg2']            = 'Has sido kickeado del servidor ',
   ['your_rank']           = 'Rango: %s',
 
   --Notifications
@@ -73,11 +77,11 @@ Locales['es'] = {
 
   --Webhooks
   ['revive_hook']         = 'Revivir a todos',
-  ['revive2_hook']        = 'Se ha revivido a todos',
+  ['revive2_hook']        = 'Se ha revivido a todos. ',
   ['rank_hook']           = 'ID: ',
   ['rank2_hook']          = 'El rango del jugador es: %s', 
-  ['hook']              = '',
-  ['hook']      = '',
+  ['kick_hook']           = ' a sido kickeado',
+  ['kick2_hook']          = 'ID: ',
   ['hook']      = '',
   ['hook']      = '',
   ['hook']      = '',

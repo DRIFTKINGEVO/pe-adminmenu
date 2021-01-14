@@ -127,13 +127,19 @@ AddEventHandler("PE-admin:freezePlayer", function(Playerid, name)
     TriggerClientEvent("PE-admin:freezePlayer", Playerid, name)
 end)
 
+RegisterServerEvent("PE-admin:kickPlayer")
+AddEventHandler("PE-admin:kickPlayer", function(Playerid, name)
+    DropPlayer(Playerid, _U('kick_msg2') .. name .. _U('kick_id') .. Playerid)
+    sendDisc(webhook, name .. _U('kick_hook'), _U('kick2_hook') .. Playerid, 56108)
+end)
+
 RegisterServerEvent("PE-admin:reviveall")
 AddEventHandler("PE-admin:reviveall", function()
 	local xPlayers	= ESX.GetPlayers()
 	for i=1, #xPlayers, 1 do
 		local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
             TriggerClientEvent('esx_ambulancejob:revive', xPlayers[i])
-            sendDisc(webhook, _U('revive_hook'), _U('revive2_hook') .. xPlayers[i], 56108)
+            sendDisc(webhook, _U('revive_hook'), _U('revive2_hook') .. "ID: " ..  xPlayers[i], 56108)
 	end
 end)
 
