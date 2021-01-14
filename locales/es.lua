@@ -67,7 +67,7 @@ Locales['es'] = {
   ['tp_false']            = '❓ | Marca un punto',
   ['veh_wait']            = 'Espera, no te muevas...',
   ['veh_true']            = '✔️ | Te has teletransportado correctamente',
-  ['veh_false']           = '❌ | Ninguno vehiculo encontrado',
+  ['veh_false']           = '❌ | Ningun vehiculo encontrado',
   
   ['delallveh_true']      = '✔️ | Has borrado todos los coches',
   ['delallobj_true']      = '✔️ | Has borrado todos los objetos',
