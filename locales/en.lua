@@ -69,7 +69,7 @@ Locales['en'] = {
   ['delallobj_true']      = '✔️ | You have deleted all the objects',
   ['spawn_true']          = 'Have you tried to spawn a ',
   ['veh_name']            = 'Enter the name of the corresponding vehicle',
-  ['chat_false']          = '💬 | You have deleted all the chat'
+  ['chat_false']          = '💬 | You have deleted all the chat',
 
   --Webhooks
   ['revive_hook']         = 'Reviving everyone',
