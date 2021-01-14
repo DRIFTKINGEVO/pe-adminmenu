@@ -57,9 +57,11 @@ If you find any issues with this please make sure to report them.
     * Changed webhook to config.lua
     * Changed opening key to config.lua
 * 1.5
-
-    
-
+    * Added more webhooks
+    * New kick system
+    * Freeze fixed
+    * Noclip with vehicle
+    * New locales
     
 ## Acknowledgments
 
