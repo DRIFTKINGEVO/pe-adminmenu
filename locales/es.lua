@@ -45,6 +45,9 @@ Locales['es'] = {
   ['fix']                 = 'Reparar',
   ['inv']                 = 'Invisible',
 
+  --TP
+  ['tp_noti']             = 'Te has teletransportado a ',
+
   --Players
 
   ['freeze']              = 'Congelar a un jugador',

@@ -13,8 +13,6 @@ Citizen.CreateThread(function()
     end
 end)
 
--- Variables 
-
 local isAdmin
 
 Citizen.CreateThread(function()
@@ -97,7 +95,7 @@ Citizen.CreateThread(function()
 
 	end
 end)
---SetPedCoordsKeepVehicle
+
 function AbrirMenuAdministrativo()
 	ESX.UI.Menu.CloseAll()
 	
@@ -107,7 +105,8 @@ function AbrirMenuAdministrativo()
 		elements = {
 			{label = _U('server_admin'), value = 'server_admin'},
             {label = _U('admin_admin'), value = 'admin_admin'},
-            {label = _U('jugador_admin'), value = 'jugador_admin'}
+			{label = _U('jugador_admin'), value = 'jugador_admin'},
+			{label = _U('tp_admin'), value = 'tp_admin'}
 	}}, function(data, menu)
 		if data.current.value == 'server_admin' then
 			local elements = {
@@ -243,92 +242,39 @@ function AbrirMenuAdministrativo()
 				end)
 		
 			end)
-		elseif data.current.value == 'open_unwanted' then
-			local elements = {}
-
-			ESX.TriggerServerCallback("esx_wanted:retrieveWantedPlayers", function(playerArray)
-		
-				if #playerArray == 0 then
-					ESX.ShowNotification(_U('no_wanted'))
-					return
+		elseif data.current.value == 'tp_admin' then
+			local elements = {
+				{label = "TEST", value = 'tpp'}
+			}
+			ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'admin_admin', {
+				title    = _U('admin_admin'),
+				align    = 'right',
+				elements = elements
+			}, function(data2, menu2)
+				local accion = data2.current.value
+				local ped = PlayerPedId()
+				local currentPos = GetStreetNameFromHashKey(GetStreetNameAtCoord(table.unpack(GetEntityCoords(player))))
+				if accion == 'tpp' then
+					SetEntityCoords(ped, 109.09, -612.49, 44.22, false, false, false, true)
+					noti()
 				end
-		
-				for i = 1, #playerArray, 1 do
-					table.insert(elements, {label = _U('wanted_player', playerArray[i].name, playerArray[i].wantedTime),name = playerArray[i].name, value = playerArray[i].identifier })
-				end
-		
-				ESX.UI.Menu.Open(
-					'default', GetCurrentResourceName(), 'wanted_unwanted_menu',
-					{
-						title = _U('open_unwanted'),
-						align = "center",
-						elements = elements
-					},
-				function(data2, menu2)
-					local identifier = data2.current.value
-					local playername = data2.current.name
-		
-					TriggerServerEvent("esx_wanted:unWantedPlayer",playername,identifier)
-					if Config.GcphoneMessageUnWanted then
-						TriggerServerEvent('gcPhone:sendMessage', 'police',_U('gcphone_message_unwanted', playername))
-					end
-
-					if PlayerData.job and PlayerData.job.name == 'police' then
-						ESX.ShowNotification(_U('police_message_un',playername))
-					end
-		
-					menu2.close()
-		
-				end, function(data2, menu2)
-					menu2.close()
-				end)
-			end)
-		elseif data.current.value == 'open_feature' then
-			ESX.UI.Menu.Open(
-				'dialog', GetCurrentResourceName(), 'wanted_choose_time_menu',
-				{
-					title = _U('set_min')
-				},
-			function(data, menu)
-
-				local wantedTime = tonumber(data.value)
-
-				if wantedTime == nil then
-					ESX.ShowNotification(_U('time_error'))
-				else
-					menu.close()
-
-						ESX.UI.Menu.Open(
-							'dialog', GetCurrentResourceName(), 'wanted_choose_feature_menu',
-							{
-							title = _U('feature')
-							},
-						function(data2, menu2)
-		
-							local feature = data2.value
-		
-							if feature == nil then
-								ESX.ShowNotification(_U('feature_error'))
-							else
-								menu2.close()
-								local number = GetRandomNumber(4)
-								TriggerServerEvent("esx_wanted:wantedFeature", number, wantedTime, feature)
-							end
-		
-						end, function(data2, menu2)
-							menu2.close()
-						end)
-				end
-			end, function(data, menu)
-				menu.close()
+			end, function(data2, menu2)
+				menu2.close()
 			end)
 		end
 	end, function(data, menu)
 		menu.close()
 	end)
 end
-				
-				
+			
+function noti()
+local currentPos = GetStreetNameFromHashKey(GetStreetNameAtCoord(table.unpack(GetEntityCoords(player))))
+exports['t-notify']:Alert({
+	style  =  'success',
+	message  =  'Te has teletransportado a ' .. currentPos
+})
+end
+
 function openVehMenu(type)
 	ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'getterAdminMenu',
 	{
@@ -349,7 +295,6 @@ function openVehMenu(type)
 	end)
 end
 
--------Events-----------
 RegisterNetEvent('PE-admin:noclipveh')
 AddEventHandler('PE-admin:noclipveh',function()
 	PE_noclipveh = not PE_noclipveh
@@ -452,7 +397,6 @@ AddEventHandler('PE-admin:repairVehicle', function()
     end
 end)
 
-
 RegisterNetEvent('PE-admin:healPlayer')
 AddEventHandler('PE-admin:healPlayer', function()
     if isAdmin then 
@@ -499,8 +443,6 @@ AddEventHandler("PE-admin:delallobj", function ()
     end
 end)
 
-----ALL PLAYER OPTIONS
-
 RegisterNetEvent("PE-admin:freezePlayer")
 AddEventHandler("PE-admin:freezePlayer", function(input)
 	freeze = not freeze
@@ -517,7 +459,18 @@ AddEventHandler("PE-admin:freezePlayer", function(input)
 		ClearPedTasksImmediately(ped, false)
     end
 end)
-----------Noclip function------------
+
+function stNoti()
+	local x,y,z = table.unpack(GetEntityCoords(PlayerPedId(),true))
+	local stHash = GetStreetNameAtCoord(x, y, z)
+	if stHash ~= nil then
+		stName = GetStreetNameFromHashKey(stHash)
+		exports['t-notify']:Alert({
+			style  =  'success',
+			message  =  _U('tp_noti', stName) 
+		})
+	end
+end
 
 getPosition = function()
 	local x,y,z = table.unpack(GetEntityCoords(PlayerPedId(),true))
@@ -541,8 +494,6 @@ getCamDirection = function()
   
 	return x,y,z
 end
-
-----Qalle Mod Function
 
 TPtoMarker = function()
     if isAdmin then
@@ -582,7 +533,6 @@ TPtoMarker = function()
     end
 end
 
--------TP to veh
 function GoVeh()
 	local playerPed = PlayerPedId()
 	local playerPedPos = GetEntityCoords(playerPed, true)
