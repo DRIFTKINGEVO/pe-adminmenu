@@ -62,8 +62,10 @@ If you find any issues with this please make sure to report them.
     * Freeze fixed
     * Noclip with vehicle
     * New locales
+* 1.6
+    * Added more webhooks
+    * Added HEX join and IP leave webhook
+    * Added TP menu
+    * Delete all cars and objects is no longer visual
+    * New locales
     
-## Acknowledgments
-
-Thank you for the basic esx_menu
-* [esx_policejob](https://github.com/esx-framework/esx_policejob)
