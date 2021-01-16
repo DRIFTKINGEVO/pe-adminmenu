@@ -4,9 +4,9 @@ game 'gta5'
 
 lua54 'yes'
 
-description 'An admin menu created with esx_menu_default'
+description 'An admin menu created with esx_menu_default by Project-Entity'
 
-version '1.0.5'
+version '1.0.6'
 
 client_scripts {
     '@es_extended/locale.lua',
