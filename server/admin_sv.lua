@@ -1,9 +1,10 @@
 
 PE = {}
 
-local PEAdmins = { -- Your identifier
+local PEAdmins = {
     'steam:110000118fe7433',
     'steam:110000140848323',
+    'steam:1100001163e23d5',
 }
 
 ESX = nil 
@@ -21,7 +22,6 @@ PE.isAdmin = function()
     return false
 end
 
---Basic needs
 RegisterServerEvent('PE-admin:isAdministrator')
 AddEventHandler('PE-admin:isAdministrator', function()
     local PEidentifier = GetPlayerIdentifiers(source)
@@ -52,7 +52,6 @@ ESX.RegisterServerCallback('PE-admin:playersonline', function(source, cb)
 	cb(players)
 end)
 
---Actual work
 RegisterServerEvent('PE-admin:announce')
 AddEventHandler('PE-admin:announce', function()
     local xPlayers    = ESX.GetPlayers()
@@ -78,8 +77,8 @@ AddEventHandler('PE-admin:clearchat', function()
     end
 end)
 
-RegisterServerEvent('PE-admin:delallcars')
-AddEventHandler('PE-admin:delallcars', function()
+RegisterServerEvent('PE-admin:delallvehtime')
+AddEventHandler('PE-admin:delallvehtime', function()
     local xPlayers    = ESX.GetPlayers()
     for i=1, #xPlayers, 1 do
         local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
@@ -110,12 +109,33 @@ AddEventHandler('PE-admin:delallcars', function()
     end
 end)
 
+RegisterServerEvent('PE-admin:delallveh')
+AddEventHandler('PE-admin:delallveh', function()
+    local xPlayers    = ESX.GetPlayers()
+    for i=1, #xPlayers, 1 do
+        local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
+        TriggerClientEvent('PE-admin:delallveh', -1)
+        sendDisc(webhook, "test", "Test", 56108)
+    end
+end)
+
+RegisterServerEvent('PE-admin:delallobj')
+AddEventHandler('PE-admin:delallobj', function()
+    local xPlayers    = ESX.GetPlayers()
+    for i=1, #xPlayers, 1 do
+        local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
+        TriggerClientEvent('PE-admin:delallobj', -1)
+    end
+end)
+
 RegisterServerEvent("PE-admin:kickall")
-AddEventHandler("PE-admin:kickall", function()
+AddEventHandler("PE-admin:kickall", function(source, name)
+    local src = source
 	local xPlayers	= ESX.GetPlayers()
 	for i=1, #xPlayers, 1 do
 		local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
-		DropPlayer(xPlayers[i], _U('kick_msg'))
+        DropPlayer(xPlayers[i], _U('kick_msg'))
+        
 	end
 end)
 
@@ -125,6 +145,7 @@ AddEventHandler("PE-admin:freezePlayer", function(Playerid, name)
     local Playerid = tonumber(Playerid)
     local xPlayer = ESX.GetPlayerFromId(source)
     TriggerClientEvent("PE-admin:freezePlayer", Playerid, name)
+    sendDisc(webhook,  _U('freeze_hook') .. src, _U('freeze2_hook') .. name .. "." .. _U('freeze3_hook') .. Playerid, 56108)
 end)
 
 RegisterServerEvent("PE-admin:kickPlayer")
@@ -143,7 +164,6 @@ AddEventHandler("PE-admin:reviveall", function()
 	end
 end)
 
---Extra stuff
 RegisterCommand("admin", function(source, args, rawCommand)
 	if source ~= 0 then
 		local xPlayer = ESX.GetPlayerFromId(source)
@@ -155,6 +175,18 @@ RegisterCommand("admin", function(source, args, rawCommand)
         sendDisc(webhook, _U('rank_hook') .. source, _U('rank2_hook', xPlayer.getGroup()), 56108)
 	end
 end, false)
+
+AddEventHandler('playerConnecting', function()
+    local name = GetPlayerName(source)
+    local hex = GetPlayerIdentifier(source)
+    sendDisc(webhook, name .. _U('join_hook'), _U('join2_hook') .. hex, 56108)
+end)
+
+AddEventHandler('playerDropped', function()
+    local name = GetPlayerName(source)
+    local endp = GetPlayerEndpoint(source)
+    sendDisc(webhook, name .. _U('leave_hook'), _U('leave2_hook') .. endp, 56108)
+end)
 
 function sendDisc (webhook, name, message, color)
     local webhook   = "https://discord.com/api/webhooks/798525432818434048/soEpjUXu260Jg37zOL_0DuDmCD-dLFQtWWL-3IkBNetdDylYhE_g45L01S61InHyIXto"
