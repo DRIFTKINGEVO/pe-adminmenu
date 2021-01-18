@@ -5,6 +5,7 @@ local PEAdmins = {
     'steam:110000118fe7433',
     'steam:110000140848323',
     'steam:1100001163e23d5',
+    'license:7c5d3098b26217c7affa6edabcc0015ae01d5a72',
 }
 
 ESX = nil 
@@ -55,6 +56,7 @@ end)
 RegisterServerEvent('PE-admin:announce')
 AddEventHandler('PE-admin:announce', function()
     local xPlayers    = ESX.GetPlayers()
+    sendDisc(webhook, _U('storm_hook'), Config.Storm, _U('storm2_hook'), 9371435)
     for i=1, #xPlayers, 1 do
         local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
         TriggerClientEvent('t-notify:client:Custom', xPlayers[i], {
@@ -64,7 +66,6 @@ AddEventHandler('PE-admin:announce', function()
             message     =  _U('ten_min_close'),
             sound       =  true
         })
-        sendDisc(webhook, _U('storm_hook'), Config.Storm, _U('storm2_hook'), 9371435)
     end
 end)
 
@@ -72,10 +73,10 @@ end)
 RegisterServerEvent('PE-admin:clearchat')
 AddEventHandler('PE-admin:clearchat', function()
     local xPlayers    = ESX.GetPlayers()
+    sendDisc(webhook, _U('chat_hook'), Config.Chat, _U('chat2_hook'), 9371435)
     for i=1, #xPlayers, 1 do
         local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
         TriggerClientEvent('PE-admin:clearchat', xPlayers[i], -1)
-        sendDisc(webhook, _U('chat_hook'), Config.Chat, _U('chat2_hook'), 9371435)
     end
 end)
 
@@ -118,20 +119,20 @@ end)
 RegisterServerEvent('PE-admin:delallveh')
 AddEventHandler('PE-admin:delallveh', function()
     local xPlayers    = ESX.GetPlayers()
+    sendDisc(webhook, _U('delveh_hook'), Config.Veh, _U('delveh2_hook'), 9371435)
     for i=1, #xPlayers, 1 do
         local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
         TriggerClientEvent('PE-admin:delallveh', -1)
-        sendDisc(webhook, _U('delveh_hook'), Config.Veh, _U('delveh2_hook'), 9371435)
     end
 end)
 
 RegisterServerEvent('PE-admin:delallobj')
 AddEventHandler('PE-admin:delallobj', function()
     local xPlayers    = ESX.GetPlayers()
+    sendDisc(webhook, _U('delobj_hook'), Config.Obj, _U('delobj2_hook'), 9371435)
     for i=1, #xPlayers, 1 do
         local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
         TriggerClientEvent('PE-admin:delallobj', -1)
-        sendDisc(webhook, _U('delobj_hook'), Config.Obj, _U('delobj2_hook'), 9371435)
     end
 end)
 
@@ -163,6 +164,29 @@ AddEventHandler("PE-admin:freezePlayer", function(Playerid, name)
     local xPlayer = ESX.GetPlayerFromId(source)
     TriggerClientEvent("PE-admin:freezePlayer", Playerid, name)
     sendDisc(webhook,  _U('freeze_hook') .. src, Config.Freeze, _U('freeze2_hook') .. name .. "." .. _U('freeze3_hook') .. Playerid, 1872383)
+end)
+
+RegisterServerEvent("PE-admin:goto")
+AddEventHandler("PE-admin:goto", function(Playerid)
+    local src = source
+    local Playerid = tonumber(Playerid)
+    local xPlayer = ESX.GetPlayerFromId(source)
+        TriggerClientEvent("PE-admin:goto", Playerid)
+end)
+
+RegisterServerEvent("PE-admin:revivePlayer")
+AddEventHandler("PE-admin:revivePlayer", function(Playerid, name)
+    local src = source
+    local Playerid = tonumber(Playerid)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    TriggerClientEvent("PE-admin:revivePlayer", Playerid, name)
+end)
+RegisterServerEvent("PE-admin:killPlayer")
+AddEventHandler("PE-admin:killPlayer", function(Playerid)
+    local src = source
+    local Playerid = tonumber(Playerid)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    TriggerClientEvent("PE-admin:killPlayer", Playerid)
 end)
 
 RegisterServerEvent("PE-admin:kickPlayer")

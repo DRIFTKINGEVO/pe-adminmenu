@@ -32,7 +32,6 @@ Locales['es'] = {
   ['ten_min']             = 'Anuncio reinicio (10min)',
   ['kick_all']            = 'Kickear a todos',
   ['revive_all']          = 'Revivir a todos',
-  ['custom_announce']     = 'En prog',
 
   --Admin
   ['noclip']              = 'Noclip',
@@ -44,6 +43,7 @@ Locales['es'] = {
   ['dv']                  = 'Borrar coche',
   ['heal']                = 'Curarse',
   ['fix']                 = 'Reparar',
+  ['coords']              = 'Coordenadas',
   ['inv']                 = 'Invisible',
 
   --TP
@@ -68,6 +68,7 @@ Locales['es'] = {
   ['kick']                = 'Kickear jugador',
   ['revive_player']       = 'Revivir jugador',
   ['spec']                = 'Espectear jugador',
+  ['kill']                = 'Matar jugador',
   ['kick_id']             = '\n ID: ',
   ['kick_msg2']           = 'Has sido kickeado del servidor ',
   ['your_rank']           = 'Rango: %s',
@@ -84,7 +85,7 @@ Locales['es'] = {
   ['heal_true']           = '✔️ | Te has curado',
   ['heal_false']          = '❗ | Te has quitado el escudo',
   ['tp_true']             = '✔️ | Te has teletransportado',
-  ['tp_false']            = ' | Marca un punto',
+  ['tp_false']            = '❓ | Marca un punto',
   ['veh_wait']            = 'Espera, no te muevas...',
   ['veh_true']            = '✔️ | Te has teletransportado correctamente',
   ['veh_false']           = '❌ | Ningun vehiculo encontrado',

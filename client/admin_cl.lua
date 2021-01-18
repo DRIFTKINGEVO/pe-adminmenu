@@ -120,8 +120,7 @@ function AbrirMenuAdministrativo()
 				{label = _U('del_chat'), value = 'del_chat'},
 				{label = _U('ten_min'), value = 'ten_min'},
 				{label = _U('kick_all'), value = 'kick_all'},
-				{label = _U('revive_all'), value = 'revive_all'},
-                {label = _U('custom_announce'), value = 'custom_announce'}
+				{label = _U('revive_all'), value = 'revive_all'}
             }
             
 			ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'server_admin', {
@@ -140,10 +139,6 @@ function AbrirMenuAdministrativo()
 					TriggerServerEvent('PE-admin:delallvehtime')
 				elseif accion == 'del_obj' then
 					TriggerServerEvent('PE-admin:delallobj')
-					exports['t-notify']:Alert({
-						style  =  'success',
-						message  =  '✔️ | Has borrado todos los objetos'
-					})
 				elseif accion == 'del_chat' then
 					TriggerServerEvent('PE-admin:clearchat')
 				elseif accion == 'ten_min' then
@@ -152,8 +147,6 @@ function AbrirMenuAdministrativo()
 					TriggerServerEvent('PE-admin:kickall')
 				elseif accion == 'revive_all' then
 					TriggerServerEvent('PE-admin:reviveall')
-				elseif accion == 'custom_announce' then
-					
 				end
 			end, function(data2, menu2)
 				menu2.close()
@@ -168,7 +161,8 @@ function AbrirMenuAdministrativo()
 				{label = _U('spawnCar'), value = 'spawnCar'},
 				{label = _U('dv'), value = 'dv'},
 				{label = _U('heal'), value = 'heal'},
-                {label = _U('fix'), value = 'fix'},
+				{label = _U('fix'), value = 'fix'},
+				{label = _U('coords'), value = 'coords'},
                 {label = _U('inv'), value = 'inv'}
 			}
 
@@ -195,7 +189,9 @@ function AbrirMenuAdministrativo()
 				elseif accion == 'heal' then
                     TriggerEvent('PE-admin:healPlayer')
 				elseif accion == 'fix' then
-                    TriggerEvent( 'PE-admin:repairVehicle')
+					TriggerEvent( 'PE-admin:repairVehicle')
+				elseif accion == 'coords' then
+                    TriggerEvent( 'PE-admin:coords')
 				elseif accion == 'inv' then
                     TriggerEvent('PE-admin:invisible')
 				end
@@ -225,8 +221,10 @@ function AbrirMenuAdministrativo()
 						elements = {
 							{label = _U('freeze'), value = 'freeze'},
 							{label = _U('revive_player'), value = 'revive_player'},
+							{label = _U('kill'), value = 'kill'},
 							{label = _U('kick'), value = 'kick'},
-							{label = _U('spec'), value = 'spec'}
+							{label = _U('weapon_player'), value = 'weapon_player'},
+							{label = _U('goto'), value = 'goto'}
 						}
 					}, function(data3, menu3)
 						menu3.close()
@@ -235,13 +233,14 @@ function AbrirMenuAdministrativo()
 		
 						if data3.current.value == 'freeze' then
 							TriggerServerEvent('PE-admin:freezePlayer', Playerid, name)
+						elseif data3.current.value == 'kill' then
+							TriggerServerEvent('PE-admin:killPlayer', Playerid)
 						elseif data3.current.value == 'kick' then
 							TriggerServerEvent('PE-admin:kickPlayer', Playerid, name)
-						elseif data3.current.value == 'spec' then
-							specPly(Playerid, name)
 						elseif data3.current.value == 'revive_player' then
-							TriggerEvent('PE-admin:revivePlayer', Playerid, name)
-							
+							TriggerServerEvent('PE-admin:revivePlayer', Playerid, name)
+						elseif data3.current.value('weapon_player') then
+							TriggerServerEvent('PE-admin:giveweapon', Playerid)
 						end
 					end, function(data3, menu3)
 						menu3.close()
@@ -420,43 +419,6 @@ TPtoMarker = function()
     end
 end
 
-
-function specPly(player)
-    if isAdmin then 
-		local playerPed = PlayerPedId()
-		PE_spectate = not PE_spectate
-		local targetPed = GetPlayerPed(player)
-		local name = GetPlayerName(player)
-
-
-		if(PE_spectate)then
-
-			local targetx,targety,targetz = table.unpack(GetEntityCoords(targetPed, false))
-
-			RequestCollisionAtCoord(targetx,targety,targetz)
-			NetworkSetInSpectatorMode(true, targetPed)
-			exports['t-notify']:Alert({
-				style = 'info', 
-				message = 'Specteando a ' .. name
-			})
-		else
-
-			local targetx,targety,targetz = table.unpack(GetEntityCoords(targetPed, false))
-
-			RequestCollisionAtCoord(targetx,targety,targetz)
-			NetworkSetInSpectatorMode(false, targetPed)
-			exports['t-notify']:Alert({
-				style = 'info', 
-				message = 'Se ha dejado de spectear' .. namename
-			})
-		end
-	else
-		exports['t-notify']:Alert({
-			style  =  'error',
-			message  =  _U('user_perms')
-		})
-	end
-end
 
 function GoVeh()
 	local playerPed = PlayerPedId()
@@ -750,5 +712,38 @@ AddEventHandler('PE-admin:revivePlayer', function(input)
 		TriggerEvent('esx_ambulancejob:revive')
 	else
 		print('HE IS ALIVE')
+    end
+end)
+
+RegisterNetEvent('PE-admin:killPlayer')
+AddEventHandler('PE-admin:killPlayer', function(input)
+	local ped = PlayerPedId()
+	local player = IsPlayerDead(ped)
+	if player then
+		print(player)
+	else
+		SetEntityHealth(ped, 0)
+    end
+end)
+
+RegisterNetEvent("PE-admin:coords")
+AddEventHandler("PE-admin:coords", function(input)
+	coords = not coords
+	local x,y,z = table.unpack(GetEntityCoords(PlayerPedId(), true))
+	if coords == true then
+		exports['t-notify']:Persist({
+			id = 'uniquePersistId',
+			step = 'start',
+			options = {
+				style = 'info',
+				message = x,
+				title = 'a'
+			}
+		})
+	else
+		exports['t-notify']:Persist({
+			id = 'uniquePersistId',
+			step = 'end'
+		})
     end
 end)
