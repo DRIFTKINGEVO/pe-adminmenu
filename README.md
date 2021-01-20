@@ -27,6 +27,7 @@ An admin menu created with esx_menu_default that allows gives you admin commands
 * 2) Place your script in your server.
 * 3) Add yourself (steam hex|identifier) to the admin_sv.lua
 * 4) Press INSERT to open the menu.
+* 5) Set up the webhooks on the server.
 
 ## Issues
 
