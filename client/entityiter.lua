@@ -71,9 +71,3 @@ end
 function EnumeratePickups()
   return EnumerateEntities(FindFirstPickup, FindNextPickup, EndFindPickup)
 end
-
---[[Usage:
-for ped in EnumeratePeds() do
-  <do something with 'ped'>
-end
-]]

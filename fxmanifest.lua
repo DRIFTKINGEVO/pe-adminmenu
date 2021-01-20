@@ -14,16 +14,17 @@ client_scripts {
     'client/entityiter.lua',
     'locales/es.lua',
     'locales/fr.lua',
+    'locales/br.lua',
     'locales/en.lua',
     'config.lua'
 }
 
 server_scripts {
-    '@mysql-async/lib/MySQL.lua',
     '@es_extended/locale.lua',
     'server/admin_sv.lua',
     'locales/es.lua',
     'locales/fr.lua',
+    'locales/br.lua',
     'locales/en.lua',
     'config.lua'
 }

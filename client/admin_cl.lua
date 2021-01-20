@@ -5,10 +5,9 @@ PE_noclipveh = false
 PE_god = false
 PE_revive = false
 PE_heal = false
-PE_spectate = false
-PE_vanish = false
-PE_noclipSpeed = 1.95
+PE_invisible = false
 PE = {}
+
 Citizen.CreateThread(function()
     while ESX == nil do
 	TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
@@ -21,13 +20,13 @@ local isAdmin
 Citizen.CreateThread(function()
 	PE.CheckAdmin()
     while true do 
-        Wait(150)
+        Citizen.Wait(190)
     end
 end)
 
 PE.CheckAdmin = function()
     isAdmin = nil
-    TriggerServerEvent('PE-admin:isAdministrator')
+    TriggerServerEvent('PE-admin:isAdmin')
     while (isAdmin == nil) do
         Citizen.Wait(1)
     end
@@ -41,7 +40,7 @@ end)
 
 Citizen.CreateThread(function()
     while true do 
-        Citizen.Wait(15)
+        Citizen.Wait(12)
 		if IsControlJustReleased(0, Config.Key) and isAdmin then 
 			exports['t-notify']:Alert({
 				style = 'warning', 
@@ -57,9 +56,9 @@ Citizen.CreateThread(function()
 		--Why not just put the local here? For optimization
         if PE_noclip then
             local ped = PlayerPedId()
-            local x, y, z = getPosition()
+            local x, y, z = getPos()
             local px, py, pz = getCamDirection()
-            local speed = PE_noclipSpeed
+            local speed = Config.NoClipSpeed
 
 
             if IsControlPressed(0, 32) then
@@ -78,9 +77,9 @@ Citizen.CreateThread(function()
 
         if PE_noclipveh then
             local ped = GetVehiclePedIsIn(PlayerPedId(), false)
-            local x, y, z = getPosition()
+            local x, y, z = getPos()
             local px, py, pz = getCamDirection()
-            local speed = PE_noclipSpeed
+            local speed = Config.NoClipSpeed
 
 
             if IsControlPressed(0, 32) then
@@ -156,14 +155,15 @@ function AbrirMenuAdministrativo()
 				{label = _U('noclip'), value = 'noclip'},
 				{label = _U('noclipveh'), value = 'noclipveh'},
 				{label = _U('god'), value = 'god'},
+				{label = _U('inv'), value = 'inv'},
 				{label = _U('tp'), value = 'tp'},
-				{label = _U('tpveh'), value = 'tpveh'},
-				{label = _U('spawnCar'), value = 'spawnCar'},
-				{label = _U('dv'), value = 'dv'},
 				{label = _U('heal'), value = 'heal'},
+				{label = _U('spawnveh'), value = 'spawnveh'},
+				{label = _U('tpveh'), value = 'tpveh'},
+				{label = _U('dv'), value = 'dv'},
 				{label = _U('fix'), value = 'fix'},
-				{label = _U('coords'), value = 'coords'},
-                {label = _U('inv'), value = 'inv'}
+				{label = _U('heal'), value = 'heal'},
+				{label = _U('coords'), value = 'coords'}
 			}
 
 			ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'admin_admin', {
@@ -182,8 +182,21 @@ function AbrirMenuAdministrativo()
 					TPtoMarker()
 				elseif accion == 'tpveh' then
 					GoVeh()
-				elseif accion == 'spawnCar' then
-                    openVehMenu('spawnCar')
+				elseif accion == 'spawnveh' then
+					ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'VehMenu',
+					{
+						title = _U('veh_name'),
+					}, function(data, menu)
+						local parameter = data.value
+						TriggerEvent('esx:spawnVehicle', parameter)
+						exports['t-notify']:Alert({
+							style  =  'info',
+							message  =  _U('spawn_true') ..parameter
+						})
+						menu.close()
+					end, function(data, menu)
+						menu.close()
+					end)
 				elseif accion == 'dv' then
                     TriggerEvent('esx:deleteVehicle')
 				elseif accion == 'heal' then
@@ -223,8 +236,9 @@ function AbrirMenuAdministrativo()
 							{label = _U('revive_player'), value = 'revive_player'},
 							{label = _U('kill'), value = 'kill'},
 							{label = _U('kick'), value = 'kick'},
-							{label = _U('weapon_player'), value = 'weapon_player'},
-							{label = _U('goto'), value = 'goto'}
+							{label = _U('goto'), value = 'goto'},
+							{label = _U('bring'), value = 'bring'},
+							{label = _U('weapon_player'), value = 'weapon_player'}
 						}
 					}, function(data3, menu3)
 						menu3.close()
@@ -234,13 +248,17 @@ function AbrirMenuAdministrativo()
 						if data3.current.value == 'freeze' then
 							TriggerServerEvent('PE-admin:freezePlayer', Playerid, name)
 						elseif data3.current.value == 'kill' then
-							TriggerServerEvent('PE-admin:killPlayer', Playerid)
+							TriggerServerEvent('PE-admin:killPlayer', Playerid, name)
 						elseif data3.current.value == 'kick' then
 							TriggerServerEvent('PE-admin:kickPlayer', Playerid, name)
 						elseif data3.current.value == 'revive_player' then
 							TriggerServerEvent('PE-admin:revivePlayer', Playerid, name)
-						elseif data3.current.value('weapon_player') then
-							TriggerServerEvent('PE-admin:giveweapon', Playerid)
+						elseif data3.current.value == 'goto' then
+							TriggerServerEvent('PE-admin:goto', Playerid, name)
+						elseif data3.current.value == 'bring' then
+							TriggerServerEvent('PE-admin:bring', Playerid, name)
+						elseif data3.current.value == 'weapon_player' then
+							TriggerServerEvent('PE-admin:weaponPlayer', Playerid, name)
 						end
 					end, function(data3, menu3)
 						menu3.close()
@@ -327,26 +345,6 @@ function AbrirMenuAdministrativo()
 	end)
 end
 
-function openVehMenu(type)
-	ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'getterAdminMenu',
-	{
-		title = _U('veh_name'),
-	}, function(data, menu)
-		local parameter = data.value
-		if type == "spawnCar" then
-			TriggerEvent('esx:spawnVehicle', parameter)
-			exports['t-notify']:Alert({
-				style  =  'info',
-				message  =  _U('spawn_true') ..parameter
-			})
-		end
-
-		menu.close()
-	end, function(data, menu)
-		menu.close()
-	end)
-end
-
 function stNoti()
 	local x,y,z = table.unpack(GetEntityCoords(PlayerPedId(),true))
 	local stHash = GetStreetNameAtCoord(x, y, z)
@@ -359,7 +357,7 @@ function stNoti()
 	end
 end
 
-getPosition = function()
+getPos = function()
 	local x,y,z = table.unpack(GetEntityCoords(PlayerPedId(),true))
   	return x,y,z
 end
@@ -567,10 +565,10 @@ end)
 
 RegisterNetEvent('PE-admin:invisible')
 AddEventHandler('PE-admin:invisible', function()
-	PE_vanish = not PE_vanish
+	PE_invisible = not PE_invisible
     local ped = PlayerPedId()
-    SetEntityVisible(ped, not PE_vanish, false)
-    if PE_vanish == true then 
+    SetEntityVisible(ped, not PE_invisible, false)
+    if PE_invisible == true then 
 		exports['t-notify']:Alert({
 			style  =  'success',
 			message  =  _U('inv_true')
@@ -711,38 +709,51 @@ AddEventHandler('PE-admin:revivePlayer', function(input)
 	if player then
 		TriggerEvent('esx_ambulancejob:revive')
 	else
-		print('HE IS ALIVE')
+		exports['t-notify']:Alert({
+			style  =  'error',
+			message  = _U('not_dead')
+		})
     end
 end)
 
 RegisterNetEvent('PE-admin:killPlayer')
 AddEventHandler('PE-admin:killPlayer', function(input)
 	local ped = PlayerPedId()
-	local player = IsPlayerDead(ped)
+	local player = IsPedDeadOrDying(ped, p1)
 	if player then
-		print(player)
+		exports['t-notify']:Alert({
+			style  =  'error',
+			message  = _U('not_alive')
+		})
 	else
 		SetEntityHealth(ped, 0)
     end
 end)
 
+RegisterNetEvent('PE-admin:weaponPlayer')
+AddEventHandler('PE-admin:weaponPlayer', function(input)
+	local ped = PlayerPedId()
+	GiveWeaponToPed(ped, Config.Weapon, 250, true, true)
+end)
+
 RegisterNetEvent("PE-admin:coords")
 AddEventHandler("PE-admin:coords", function(input)
 	coords = not coords
-	local x,y,z = table.unpack(GetEntityCoords(PlayerPedId(), true))
+	local x = GetEntityCoords(PlayerPedId())
 	if coords == true then
 		exports['t-notify']:Persist({
-			id = 'uniquePersistId',
+			id = '12',
 			step = 'start',
 			options = {
 				style = 'info',
-				message = x,
-				title = 'a'
+				message = tostring(x),
+				title = _U('coords')
 			}
 		})
+		
 	else
 		exports['t-notify']:Persist({
-			id = 'uniquePersistId',
+			id = '12',
 			step = 'end'
 		})
     end
