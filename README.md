@@ -1,4 +1,4 @@
-# PE-adminmenu (WIP) [DO NOT USE](https://www.safetysign.com/images/source/large-images/R5332.png)
+# PE-adminmenu
 
 This is the first full script that I have created. While the code may not be the best, it is something I am proud of. This is a fully working admin menu for esx which uses esx_menu_default instead of Warmenu which caused an incremented ms. I first began working on this because all the other admin menus out there are not "optimized".
 
@@ -14,7 +14,6 @@ An admin menu created with esx_menu_default that allows gives you admin commands
 ### Dependencies
 
 * T-notify
-* el-bwh (optional)
 
 ### Installing
 
@@ -68,4 +67,7 @@ If you find any issues with this please make sure to report them.
     * Added TP menu
     * Delete all cars and objects is no longer visual
     * New locales
+* 1.7
+    * Added more webhooks
+    * Added goto and bring (ali-exacute)
     
