@@ -2,10 +2,8 @@
 PE = {}
 
 local PEAdmins = {
-    'steam:110000118fe7433',
-    'steam:110000140848323',
-    'steam:1100001163e23d5',
-    'license:7c5d3098b26217c7affa6edabcc0015ae01d5a72',
+   -- 'steam:',
+    --'license:',
 }
 
 ESX = nil 
@@ -300,7 +298,7 @@ AddEventHandler('playerDropped', function()
 end)
 
 function sendDisc (webhook, name, image, message, color)
-    local webhook   = "https://discord.com/api/webhooks/798525432818434048/soEpjUXu260Jg37zOL_0DuDmCD-dLFQtWWL-3IkBNetdDylYhE_g45L01S61InHyIXto"
+    local webhook   = ""
     local avatar     = Config.Avatar
     local embeds = {
         {
