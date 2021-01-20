@@ -74,3 +74,6 @@ If you find any issues with this please make sure to report them.
     * Added more webhooks
     * Added goto and bring (ali-exacute)
     
+## Acknowledgments
+
+Thank you for the goto and bring [ali-exacute](https://github.com/ali-exacute)
