@@ -6,6 +6,8 @@ This is the first full script that I have created. While the code may not be the
 
 An admin menu created with esx_menu_default that allows gives you admin commands, server commands, and player commands. It also has basic server stuff for servers.
 
+[VIDEO](https://streamable.com/i087gn)
+
 #### Commands:
 /admin To see your rank
 
